@@ -1,6 +1,6 @@
 <?php
     session_start();
-   if(isset($_SESSION["userEmail"]) && isset($_SESSION["userType"])){
+   if(isset($_SESSION["userNSID"])){
        header('Location: home.php');
        exit;
     }
@@ -41,7 +41,9 @@
                             <h1><strong>Login</strong> OR <strong>Register</strong></h1>
                             <div class="description">
                             	<p>
-	                            	Please log into your <strong>Fraties</strong> account or register in few quick easy steps using your NSID!
+	                            	Please log into your <strong>Fraties</strong> account
+                                    <br>OR<br> 
+                                    Register in few quick easy steps using your NSID!
                             	</p>
                             </div>
                         </div>
@@ -64,7 +66,7 @@
 				                    	<div class="form-group">
 				                    		<label class="sr-only" for="form-username">Username</label>
                             
-				                        	<input type="email" style="color:black" value="<?php echo htmlentities($_POST['form-email']);?>" name="form-email" placeholder="Email" class="form-username form-control" id="form-emailSignIn" required>
+				                        	<input type="text" style="color:black" value="<?php echo htmlentities($_POST['form-nsid']);?>" name="form-nsid" placeholder="NSID" class="form-username form-control" id="form-nsidSignIn" required>
 				                        </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-password">Password</label>
@@ -94,10 +96,10 @@
                                     <!-- register form -->
 				                    <form role="form" action="" method="post" class="registration-form">
 				                        <div class="form-group">
-				                        	<label class="sr-only" for="form-email">Email</label>
+				                        	<label class="sr-only" for="form-nsid">Email</label>
                                             
                                             
-				                        	<input type="email" style="color:black" name="form-emailRegister" placeholder="Email" class="form-email form-control" id="form-emailRegister" required>
+				                        	<input type="text" style="color:black" name="form-nsidRegister" placeholder="NSID" class="form-nsid form-control" id="form-nsidRegister" required>
 				                        </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-password">Password</label>

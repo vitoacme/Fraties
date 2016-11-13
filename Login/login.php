@@ -4,6 +4,10 @@
 //       header('Location: home.php');
 //       exit;
 //    }
+   if(isset($_SESSION["userNSID"])){
+       header('Location: verify.php');
+       exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

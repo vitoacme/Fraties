@@ -11,10 +11,11 @@ require_once 'userClass.php';
             echo "Incorrect login info. Please enter correct info and try again.";
         }
         else{
+            
             session_start();
             $_SESSION["userNSID"] = $nsid;
 
-            echo "<script type='text/javascript'>window.location.href ='/Feed/feed.php';</script>";
+            echo "<script type='text/javascript'>window.location.href ='./verify.php';</script>";
         }       
     }
 ?>

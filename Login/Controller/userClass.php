@@ -226,7 +226,6 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         close($connection);
     }
 
-    function isRegisteredMail($nsid){
     function isRegisteredNSID($nsid){
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);

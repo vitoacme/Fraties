@@ -1,9 +1,9 @@
 <?php
     session_start();
-   if(isset($_SESSION["userNSID"])){
-       header('Location: home.php');
-       exit;
-    }
+//   if(isset($_SESSION["userNSID"])){
+//       header('Location: home.php');
+//       exit;
+//    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,14 +64,14 @@
                                     <!-- login form -->
 				                    <form role="form" action="" method="post" class="login-form">
 				                    	<div class="form-group">
-				                    		<label class="sr-only" for="form-username">Username</label>
+				                    		<label class="sr-only" for="form-username">NSID</label>
                             
 				                        	<input type="text" style="color:black" value="<?php echo htmlentities($_POST['form-nsid']);?>" name="form-nsid" placeholder="NSID" class="form-username form-control" id="form-nsidSignIn" required>
 				                        </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-password">Password</label>
                                             
-				                        	<input type="password" style="color:black" name="form-password" placeholder="Password" class="form-password form-control" id="form-passwordSignIn" required><sub style="color:red"><?php include 'Controller/signIn.php';?></sub>
+				                        	<input type="password" style="color:black" name="form-password" placeholder="Password" class="form-password form-control" id="form-passwordSignIn" required><sub style="color:red"><?php include 'Controller/signInController.php';?></sub>
 				                        </div>
 				                        <button name="signInSubmit" type="submit" class="btn">Sign in!</button>
 				                    </form>
@@ -96,22 +96,21 @@
                                     <!-- register form -->
 				                    <form role="form" action="" method="post" class="registration-form">
 				                        <div class="form-group">
-				                        	<label class="sr-only" for="form-nsid">Email</label>
-                                            
-                                            
-				                        	<input type="text" style="color:black" name="form-nsidRegister" placeholder="NSID" class="form-nsid form-control" id="form-nsidRegister" required>
+				                        	<label class="sr-only" for="form-nsid">NSID</label>
+                                            <input type="text" style="color:black" name="form-nsidRegister" placeholder="NSID" class="form-nsid form-control" id="form-nsidRegister" required>
 				                        </div>
+                                        
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-password">Password</label>
-                                            
-                                            
-				                        	<input type="password" style="color:black" name="form-passwordRegister" placeholder="Password" class="form-password form-control" id="form-passwordRegister" required>
+                                            <input type="password" style="color:black" name="form-passwordRegister" placeholder="Password" class="form-password form-control" id="form-passwordRegister" required>
 				                        </div>
+                                        
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-reTypePassword">Re-type Password</label>
                                             
                                             
 				                        	<input type="password" style="color:black" name="form-reTypePasswordRegister" placeholder="Re-type Password" oninput="myFunction()" class="form-password form-control" id="form-reTypePasswordRegister" required>
+                                            <sub style="color:red"><?php include 'Controller/registerController.php';?></sub>
                                             <p style="color:red" id="passNoMatch"></p>
 				                        </div>
                                 

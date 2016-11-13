@@ -10,10 +10,12 @@
         
         // test for errors
         if($result){
-            session_start();
-            $_SESSION["userNSID"] = $nsid;
+//            session_start();
+//            $_SESSION["userNSID"] = $nsid;
+//            
+//            sendVerificationEmail($nsid,$password);
 
-            echo "<script type='text/javascript'>window.location.href ='./homeFromRegister.php';</script>";
+            echo "<script type='text/javascript'>window.location.href ='./verify.php';</script>";
         }
         else{
             echo "This email is already in use. Either sign in or use a different email. Thank you.";

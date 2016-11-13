@@ -10,10 +10,10 @@
         
         // test for errors
         if($result){
-//            session_start();
-//            $_SESSION["userNSID"] = $nsid;
-//            
-//            sendVerificationEmail($nsid,$password);
+            session_start();
+            $_SESSION["userNSID"] = $nsid;
+            
+            sendVerificationEmail($nsid);
 
             echo "<script type='text/javascript'>window.location.href ='./verify.php';</script>";
         }

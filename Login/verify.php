@@ -2,7 +2,16 @@
 
 require_once 'Controller/userClass.php';
 
-    if( isset($_GET['Email']) && !empty($_GET['Email']) 
+    session_start();
+    $nsid = $_SESSION["userNSID"];
+
+    if($nsid==""){
+        echo "<script type='text/javascript'>window.location.href ='./login.php';</script>";
+    }
+    else if(getUserActiveStatus($nsid)==1){
+        echo "<script type='text/javascript'>window.location.href ='./homeForVerifiedUser.php';</script>";
+    } 
+    else if( isset($_GET['Email']) && !empty($_GET['Email']) 
             AND isset($_GET['Password']) && !empty($_GET['Password']) 
             AND isset($_GET['NSID']) && !empty($_GET['NSID'])){
         
@@ -13,18 +22,22 @@ require_once 'Controller/userClass.php';
         
         $result = isRegisteredUser($nsid, $password);
         
-        // test for errors
-        if($result){
-            session_start();
-            $_SESSION["userNSID"] = $nsid;
-            setUserToActive($nsid);
-
+        if(getUserActiveStatus($nsid)==1){
+            
             echo "<script type='text/javascript'>window.location.href ='./homeForVerifiedUser.php';</script>";
         }
-        else{
-            echo "Incorrect link. Something went wrong. Please contact the webmaster.";
-        }   
-    } else{
-        echo "Please verify your email to access Fraties.";
+        
+        // test for errors
+        if($result){
+            $_SESSION["userNSID"] = $nsid;
+            setUserToActive($nsid);
+            
+             echo "<script type='text/javascript'>window.location.href ='./homeForVerifiedUser.php';</script>";
+        }  else{
+            echo "wrong link.";
+        }
+    } 
+    else {
+        echo "Please verify your email to access Fraties. Or " ?> <a href="Controller/resendVerification.php">Click here</a> <?php echo "here to resend the email confirmation to ".$nsid;
     }
 ?>

@@ -4,7 +4,7 @@
     $nsid = "vit655";
     $password = "123";
 
-    sendVerificationEmail($nsid, $password);
+//    sendVerificationEmail($nsid, $password);
 
 
 ?>

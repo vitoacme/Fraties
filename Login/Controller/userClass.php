@@ -25,7 +25,8 @@
         return $result;
     }
 
-    function sendVerificationEmail($nsid, $password){
+    function sendVerificationEmail($nsid){
+        $password = getUserPassword($nsid);
         $email = $nsid."@mail.usask.ca";
         $to      = $email; // Send email to our user
         $subject = 'Fraties Signup Verification'; // Give the email a subject 

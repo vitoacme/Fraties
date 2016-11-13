@@ -14,7 +14,7 @@ require_once 'userClass.php';
             session_start();
             $_SESSION["userNSID"] = $nsid;
 
-            echo "<script type='text/javascript'>window.location.href ='./homeFromLogin.php';</script>";
+            echo "<script type='text/javascript'>window.location.href ='/Feed/feed.php';</script>";
         }       
     }
 ?>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Fraties</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-<link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-light-blue.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 <style>
@@ -17,10 +17,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
     <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   </li>
-  <li><a href="#" class="w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Logo</a></li>
+     <!-- Feed page/News  -->
+  <li><a href="#" class="w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Fraties</a></li>
   <li class="w3-hide-small"><a href="#" class="w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a></li>
+     <!-- Account settings/Profile  -->
   <li class="w3-hide-small"><a href="#" class="w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a></li>
+     <!-- Message icon -->
   <li class="w3-hide-small"><a href="#" class="w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a></li>
+     <!-- Notification area -->
   <li class="w3-hide-small w3-dropdown-hover">
     <a href="#" class="w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></a>
     <div class="w3-dropdown-content w3-white w3-card-4">
@@ -29,6 +33,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       <a href="#">Jane likes your post</a>
     </div>
   </li>
+     <!-- Profile picture on top right -->
   <li class="w3-hide-small w3-right"><a href="#" class="w3-padding-large w3-hover-white" title="My Account"><img src="/w3images/avatar2.png" class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a></li>
  </ul>
 </div>
@@ -52,12 +57,54 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       <!-- Profile -->
       <div class="w3-card-2 w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-         <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+         <h4 class="w3-center">Vishal Tomar</h4>
+         <p class="w3-center w3-text-grey">@vitoacme</p>
+         <p class="w3-center"><img src="Images/vito.jpg" class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
+<!--
+            <div  class="w3-center w3-theme-d2">
+                <p><a href="#" style="text-decoration:none;">Points: 300</a></p>
+                <p><a href="#" style="text-decoration:none;">Followers: 40</a></p>
+                <p><a href="#" style="text-decoration:none;">Following: 231</a></p>
+            </div>
+-->
+        </div>
+      </div>
+
+      <!-- Accordion -->
+      <div class="w3-card-2 w3-round">
+        <div class="w3-accordion w3-white">
+          <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
+          <div id="Demo1" class="w3-accordion-content w3-container">
+            <p>Some text..</p>
+          </div>
+          <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+          <div id="Demo2" class="w3-accordion-content w3-container">
+            <p>Some other text..</p>
+          </div>
+          <button onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
+          <div id="Demo3" class="w3-accordion-content w3-container">
+         <div class="w3-row-padding">
+         <br>
+           <div class="w3-half">
+             <img src="/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/fjords.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+         </div>
+          </div>
         </div>
       </div>
       <br>
@@ -143,7 +190,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h6 class="w3-opacity">Social Media template by w3.css</h6>
               <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-              <button type="button" class="w3-btn w3-theme"><i class="fa fa-pencil"></i>  Post</button>
+              <button type="button" class="w3-btn w3-theme"><i class="fa fa-pencil"></i>  Post</button>
             </div>
           </div>
         </div>
@@ -163,8 +210,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
           </div>
         </div>
-        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
       </div>
       
       <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
@@ -173,8 +220,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <h4>Jane Doe</h4><br>
         <hr class="w3-clear">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
       </div>
 
       <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
@@ -185,8 +232,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <p>Have you seen this?</p>
         <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+        <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
       </div>
       
     <!-- End Middle Column -->
@@ -277,4 +324,3 @@ function openNav() {
 
 </body>
 </html>
-

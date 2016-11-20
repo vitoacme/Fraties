@@ -1,13 +1,9 @@
 <?php
-    session_start();
+//    session_start();
 //   if(isset($_SESSION["userNSID"])){
-//       header('Location: home.php');
+//       header('Location: verify.php');
 //       exit;
 //    }
-   if(isset($_SESSION["userNSID"])){
-       header('Location: verify.php');
-       exit;
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +14,7 @@
         <title>Fraties Login</title>
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         
@@ -111,8 +108,7 @@
                                         
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-reTypePassword">Re-type Password</label>
-                                            
-                                            
+
 				                        	<input type="password" style="color:black" name="form-reTypePasswordRegister" placeholder="Re-type Password" oninput="myFunction()" class="form-password form-control" id="form-reTypePasswordRegister" required>
                                             <sub style="color:red"><?php include 'Controller/registerController.php';?></sub>
                                             <p style="color:red" id="passNoMatch"></p>
@@ -151,6 +147,16 @@
                                                         document.getElementById("registerSubmit").disabled = true;
                                                     }
                                                 }
+
+                                                // Get the modal
+                                                var modal = document.getElementById('id01');
+
+                                                // When the user clicks anywhere outside of the modal, close it
+                                                window.onclick = function(event) {
+                                                    if (event.target == modal) {
+                                                        modal.style.display = "none";
+                                                    }
+                                                }
                                             </script>
 				                        <button name="registerSubmit" id="registerSubmit" type="submit" class="btn">Sign me up!</button>
 				                    </form>
@@ -161,6 +167,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Registration complete modal -->
+<div id="id01" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button onclick="location.href = 'login.php'" type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Thanks <?php echo $_SESSION["userNSID"];?>!</h4>
+      </div>
+      <div class="modal-body">
+        <p>An email has been sent to your university email. Please click on the link provided in the email to verify your account.</p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="location.href = 'login.php'" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
         <!-- Footer -->
         <footer>
             <div class="col-sm-8 col-sm-offset-2">

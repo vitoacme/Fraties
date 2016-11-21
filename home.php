@@ -20,7 +20,7 @@
 <title>Fraties</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-<link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-light-blue.css">
+<link rel="stylesheet" href="CSS/homeTheme.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 <style>
@@ -30,7 +30,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 
 <!-- Navbar -->
 <div class="w3-top">
- <ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
+ <ul class="w3-navbar w3-theme-d5 w3-left-align w3-large">
   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
     <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   </li>
@@ -51,7 +51,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
     </div>
   </li>
      <!-- Profile picture on top right -->
-  <li class="w3-hide-small w3-right"><a href="#" class="w3-padding-large w3-hover-white" title="My Account"><img src="Images/vito.jpg" class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a></li>
+  
+  <li class="w3-hide-small w3-dropdown-hover w3-right">
+      <div class="w3-padding-large w3-hover-white" title="My Account">
+          <img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
+      </div>
+        <div class="w3-dropdown-content w3-white w3-card-3">
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+  </li>
  </ul>
 </div>
 
@@ -73,6 +83,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
     <div class="w3-col m3">
       <!-- Profile -->
       <div class="w3-card-2 w3-round w3-white">
+<!--       Name, college, nsid, image-->
         <div class="w3-container">
 
          <h4 class="w3-center"><?php echo $FirstName." ".$LastName; ?></h4>
@@ -85,15 +96,15 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       <!-- Followers/Points/Following -->
       <div class="w3-card-2 w3-round">
         <div class="w3-accordion w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Points</button>
+          <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Points</button>
           <div id="Demo1" class="w3-accordion-content w3-container">
             <p><?php echo $Points; ?></p>
           </div>
-          <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-user fa-fw w3-margin-right"></i> Followers</button>
+          <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-user fa-fw w3-margin-right"></i> Followers</button>
           <div id="Demo2" class="w3-accordion-content w3-container">
             <p><?php echo $Followers; ?></p>
           </div>
-          <button onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Following</button>
+          <button onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Following</button>
           <div id="Demo3" class="w3-accordion-content w3-container">
             <p><?php echo $Following; ?></p>
           </div>
@@ -133,7 +144,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h6 class="w3-opacity">Do you wanna tell others something?</h6>
               <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-              <button type="button" class="w3-btn w3-theme-d2"><i class="fa fa-pencil"></i>  Post</button>
+              <button type="button" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i>  Post</button>
             </div>
           </div>
         </div>
@@ -153,8 +164,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <img src="Images/IMG_8181.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
           </div>
         </div>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
       </div>
       
       <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
@@ -163,8 +174,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <h4>Jane Doe</h4><br>
         <hr class="w3-clear">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
       </div>
       
     <!-- End Middle Column -->
@@ -189,7 +200,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <span>378 points</span>
             </li>
             <li class="w3-padding-16">
-              <img src="Images/vito.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+              <img src='<?php echo $ImagePath; ?>' class="w3-left w3-circle w3-margin-right" style="width:60px">
               <span class="w3-xlarge">Vito</span><br>
               <span>240 points</span>
             </li>

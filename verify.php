@@ -46,6 +46,6 @@ require_once 'Login/Controller/userClass.php';
         }
     } 
     else {
-        echo "Please verify your email to access Fraties. Or " ?> <a href="Login/Controller/resendVerification.php">Click here</a> <?php echo "here to resend the email confirmation to ".$nsid;
+        include 'Login/Controller/resendVerification.php';
     }
 ?>

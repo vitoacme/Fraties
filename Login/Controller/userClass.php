@@ -48,7 +48,6 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);
-        $id = getUserID($fromEmail);
 
         $query = "UPDATE `users` SET ";
         $query .= "`userActive` = '1' ";
@@ -71,6 +70,39 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
             return false;
         }
         close($connection);
+    }
+
+    function setImageNameCollegeActive($nsid, $imagePath,$FirstName,$LastName,$college ){
+        
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $FirstName = mysqli_real_escape_string($connection, $FirstName);
+        $LastName = mysqli_real_escape_string($connection, $LastName);
+        $college = mysqli_real_escape_string($connection, $college);
+
+        $query = "UPDATE `users` SET ";
+        $query .= "`userActive` = '1', `userFirstName` = '{$FirstName}', `userLastName` = '{$LastName}', `userCollege` = '{$college}', `userImagePath` = '{$imagePath}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+
+        $result = mysqli_query($connection, $query);
+        //$id = mysqli_insert_id($connection);
+        //echo "Your userID is: ".$id."\n";
+
+        // test for errors
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No change in DB!";
+            return false;
+        }
+        else if($result){
+//            echo "done!";
+            return true;
+        }
+        else{
+            die("Database update for setUserEmail query failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
+        
     }
 
     function getUserActiveStatus($nsid){
@@ -300,8 +332,6 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         $query .= "WHERE `userNSID` = '$nsid' ";
        
         $result = mysqli_query($connection, $query);
-//        echo $query;
-
         // test for errors
         if(!$result){
 //            die("Database userAuthenticate query failed!");

@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    $nsid = $_SESSION["userNSID"];
+?>
 <!DOCTYPE html>
 <html>
 <title>Fraties</title>

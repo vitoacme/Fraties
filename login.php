@@ -20,10 +20,10 @@
         
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         
-        <link rel="stylesheet" href="Assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="Login/Assets/font-awesome/css/font-awesome.min.css">
         
-		<link rel="stylesheet" href="CSS/form-elements.css">
-        <link rel="stylesheet" href="CSS/login.css">
+		<link rel="stylesheet" href="Login/CSS/form-elements.css">
+        <link rel="stylesheet" href="Login/CSS/login.css">
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -72,7 +72,7 @@
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-password">Password</label>
                                             
-				                        	<input type="password" style="color:black" name="form-password" placeholder="Password" class="form-password form-control" id="form-passwordSignIn" required><sub style="color:red"><?php include 'Controller/signInController.php';?></sub>
+				                        	<input type="password" style="color:black" name="form-password" placeholder="Password" class="form-password form-control" id="form-passwordSignIn" required><sub style="color:red"><?php include 'Login/Controller/signInController.php';?></sub>
 				                        </div>
 				                        <button name="signInSubmit" type="submit" class="btn">Sign in!</button>
 				                    </form>
@@ -110,7 +110,7 @@
 				                        	<label class="sr-only" for="form-reTypePassword">Re-type Password</label>
 
 				                        	<input type="password" style="color:black" name="form-reTypePasswordRegister" placeholder="Re-type Password" oninput="myFunction()" class="form-password form-control" id="form-reTypePasswordRegister" required>
-                                            <sub style="color:red"><?php include 'Controller/registerController.php';?></sub>
+                                            <sub style="color:red"><?php include 'Login/Controller/registerController.php';?></sub>
                                             <p style="color:red" id="passNoMatch"></p>
 				                        </div>
                                 
@@ -194,8 +194,8 @@
             </div>		
         </footer>
         <!-- Javascript -->
-        <script src="JS/jquery.backstretch.min.js"></script>
-        <script src="JS/loginBackgroundSet.js"></script>
+        <script src="Login/JS/jquery.backstretch.min.js"></script>
+        <script src="Login/JS/loginBackgroundSet.js"></script>
         <!--[if lt IE 10]>
             <script src="JS/placeholder.js"></script>
         <![endif]-->

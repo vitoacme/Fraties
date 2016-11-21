@@ -1,6 +1,16 @@
 <?php
+    require_once 'Login/Controller/userClass.php';
     session_start();
-    $nsid = $_SESSION["userNSID"];
+    if(isset($_SESSION["userNSID"])){
+        $NSID = $_SESSION["userNSID"];
+        $FirstName = getFirstName($NSID);
+        $LastName = getLastName($NSID);
+        $ImagePath = getImagePath($NSID);
+        $College = getCollege($NSID);
+    } else {
+        header('Location: login.php');
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,10 +72,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card-2 w3-round w3-white">
         <div class="w3-container">
 
-         <h4 class="w3-center">Vishal Tomar</h4>
-         <p class="w3-center w3-text-grey w3-slim">@vitoacme</p>
-         <h5 class="w3-center">Arts & Science</h5>
-         <p class="w3-center"><img src="Images/vito.jpg" class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
+         <h4 class="w3-center"><?php echo $FirstName." ".$LastName; ?></h4>
+         <p class="w3-center w3-text-grey w3-slim">@<?php echo $NSID; ?></p>
+         <h5 class="w3-center"><?php echo $College; ?></h5>
+         <p class="w3-center"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
         </div>
       </div>
 

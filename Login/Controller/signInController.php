@@ -1,5 +1,5 @@
 <?php 
-require_once 'userClass.php';
+require_once 'Login/Controller/userClass.php';
 
     if(isset($_POST['signInSubmit'])){
         
@@ -15,7 +15,7 @@ require_once 'userClass.php';
             session_start();
             $_SESSION["userNSID"] = $nsid;
 
-            echo "<script type='text/javascript'>window.location.href ='./verify.php';</script>";
+            echo "<script type='text/javascript'>window.location.href ='verify.php';</script>";
         }       
     }
 ?>

@@ -2,6 +2,7 @@
 // contains connect() and close() func for conenctions
     require_once 'connectDB.php';
 
+// creates user with nsid and passowrd
     function createUser($nsid, $password){
         // connect to database
         $connection = connect();
@@ -25,25 +26,34 @@
         return $result;
     }
 
-    function sendVerificationEmail($nsid){
-        $password = getUserPassword($nsid);
-        $email = $nsid."@mail.usask.ca";
-        $to      = $email; // Send email to our user
-        $subject = 'Fraties Signup Verification'; // Give the email a subject 
-        $message = 'Thanks for signing up!
-Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
-                    ------------------------
-                    Username: '.$nsid.'
-                    Password: '.$password.'
-                    ------------------------
-Please click this link to activate your account:
-http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsid.'
-                    '; // Our message above including the link
-                     
-        $headers = 'From:noreply@fraties.com' . "\r\n"; // Set from headers
-        mail($to, $subject, $message, $headers); // Send our email
+// updates password of user with nsid
+    function setUserPassword($nsid,$newPassword){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userPassword` = '{$newPassword}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+
+        $result = mysqli_query($connection, $query);
+        //$id = mysqli_insert_id($connection);
+        //echo "Your userID is: ".$id."\n";
+
+        // test for errors
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No password change in DB!";
+            return false;
+        }
+        else if($result){
+            return true;
+        }
+        else{
+//            die("Database update query for setUserPassword failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
     }
     
+// sets user of nsid to active
     function setUserToActive($nsid){
         
         $connection = connect();
@@ -72,6 +82,7 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         close($connection);
     }
 
+// sets image path, college, first and last name of the user with nsid
     function setImageNameCollegeActive($nsid, $imagePath,$FirstName,$LastName,$college ){
         
         $connection = connect();
@@ -105,222 +116,7 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         
     }
 
-    function getUserActiveStatus($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        // perform query
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(!$result){
-//            die("Database getUserID functions query failed!");
-            return false;
-        }
-
-        if (mysqli_num_rows($result) == 1) {
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-            while($row = mysqli_fetch_assoc($result)) {
-
-                return $row["userActive"];
-            }
-        } 
-        else if(mysqli_num_rows($result) > 1){
-//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
-            return false;
-        }
-        else {
-            
-//            echo "There is no account registered with this email. Please make sure your sign in info is correct or register a new account. Thank you.";
-            return false;
-        }
-
-        mysqli_free_result($result);
-        
-        close($connection);
-    }
-
-    function deleteUser($nsid){
-        $connection = connect();
-        
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-
-        $query = "DELETE FROM `users` ";
-        $query .= "WHERE `userNSID` = '{$nsid}' ";
-        $query .= "LIMIT 1";
-
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(mysqli_affected_rows($connection) == 0){
-//            echo "No deletion in DB!";
-            return false;
-        }
-        else if($result){
-            return true;
-        }
-        else{
-//            die("Database delete query failed! ".mysqli_error($connection));
-            return false;
-        }
-        close($connection);
-    }
-    
-    function displayDB(){
-
-        $connection = connect();
-
-        // perform query
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        //$query .= "WHERE userType = 'Employer' ";
-        //$query .= "WHERE userType = 'Student' ";
-        $query .= "ORDER BY userNSID ASC";
-
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(!$result){
-//            die("Database display query failed!");
-            return false;
-        }
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-            while($row = mysqli_fetch_assoc($result)) {
-                print_r($row);
-                echo "<hr />";
-            }
-        } else {
-//            echo "0 results";
-            return false;
-        }
-
-        mysqli_free_result($result);
-
-        close($connection);
-    }
-
-    function displayResult($result){
-        if(!$result){
-//            die("Database display query failed!");
-            return false;
-        }
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-            while($row = mysqli_fetch_assoc($result)) {
-                print_r($row);
-                echo "<hr />";
-            }
-        } else {
-//            echo "0 results";
-            return false;
-        }
-    }
-
-    function getUserID($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        // perform query
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(!$result){
-//            die("Database getUserID functions query failed!");
-            return false;
-        }
-
-        if (mysqli_num_rows($result) == 1) {
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-            while($row = mysqli_fetch_assoc($result)) {
-
-                return $row["userID"];
-            }
-        } 
-        else if(mysqli_num_rows($result) > 1){
-//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
-            return false;
-        }
-        else {
-            
-//            echo "There is no account registered with this email. Please make sure your sign in info is correct or register a new account. Thank you.";
-            return false;
-        }
-
-        mysqli_free_result($result);
-        
-        close($connection);
-    }
-
-    function isRegisteredNSID($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        // perform query
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(!$result){
-//            die("Database isRegisteredMail functions query failed!");
-            return false;
-        }
-
-        if (mysqli_num_rows($result) == 1) {
-          return true;
-        } 
-        else if(mysqli_num_rows($result) > 1){
-//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
-            return false;
-        }
-        else {
-            return false;
-        }
-
-        mysqli_free_result($result);
-        close($connection);
-    }
-
-    function getResult($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        // perform query
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        // test for errors
-        if(!$result){
-//            die("Database getResult functions query failed!");
-            return false;
-        }
-
-        if (mysqli_num_rows($result) == 1) {
-          return $result;
-        } 
-        else if(mysqli_num_rows($result) > 1){
-//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
-            return false;
-        }
-        else {
-            return false;
-        }
-
-        mysqli_free_result($result);
-        close($connection);
-        
-    }
-
+// checks if user with this nsid and password is in db or not
     function isRegisteredUser($nsid, $password){
         $connection = connect();
         
@@ -366,6 +162,250 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         return false;
     }
 
+// checks if this nsid is in db or not
+    function isRegisteredNSID($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        // perform query
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(!$result){
+//            die("Database isRegisteredMail functions query failed!");
+            return false;
+        }
+
+        if (mysqli_num_rows($result) == 1) {
+          return true;
+        } 
+        else if(mysqli_num_rows($result) > 1){
+//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
+            return false;
+        }
+        else {
+            return false;
+        }
+
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// sends verification email
+    function sendVerificationEmail($nsid){
+        $password = getUserPassword($nsid);
+        $email = $nsid."@mail.usask.ca";
+        $to      = $email; // Send email to our user
+        $subject = 'Fraties Signup Verification'; // Give the email a subject 
+        $message = 'Thanks for signing up!
+Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+                    ------------------------
+                    Username: '.$nsid.'
+                    Password: '.$password.'
+                    ------------------------
+Please click this link to activate your account:
+http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsid.'
+                    '; // Our message above including the link
+                     
+        $headers = 'From:noreply@fraties.com' . "\r\n"; // Set from headers
+        mail($to, $subject, $message, $headers); // Send our email
+    }
+
+// resturns activation status of user with nsid
+    function getUserActiveStatus($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        // perform query
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(!$result){
+//            die("Database getUserID functions query failed!");
+            return false;
+        }
+
+        if (mysqli_num_rows($result) == 1) {
+            // output data of each row (_assoc for assoc array, _row for indexed array)
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userActive"];
+            }
+        } 
+        else if(mysqli_num_rows($result) > 1){
+//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
+            return false;
+        }
+        else {
+            
+//            echo "There is no account registered with this email. Please make sure your sign in info is correct or register a new account. Thank you.";
+            return false;
+        }
+
+        mysqli_free_result($result);
+        
+        close($connection);
+    }
+
+// deletes user with nsid
+    function deleteUser($nsid){
+        $connection = connect();
+        
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+
+        $query = "DELETE FROM `users` ";
+        $query .= "WHERE `userNSID` = '{$nsid}' ";
+        $query .= "LIMIT 1";
+
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No deletion in DB!";
+            return false;
+        }
+        else if($result){
+            return true;
+        }
+        else{
+//            die("Database delete query failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
+    }
+    
+// displays all users
+    function displayDB(){
+
+        $connection = connect();
+
+        // perform query
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        //$query .= "WHERE userType = 'Employer' ";
+        //$query .= "WHERE userType = 'Student' ";
+        $query .= "ORDER BY userNSID ASC";
+
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(!$result){
+//            die("Database display query failed!");
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row (_assoc for assoc array, _row for indexed array)
+            while($row = mysqli_fetch_assoc($result)) {
+                print_r($row);
+                echo "<hr />";
+            }
+        } else {
+//            echo "0 results";
+            return false;
+        }
+
+        mysqli_free_result($result);
+
+        close($connection);
+    }
+
+// displays results from SQL statement
+    function displayResult($result){
+        if(!$result){
+//            die("Database display query failed!");
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row (_assoc for assoc array, _row for indexed array)
+            while($row = mysqli_fetch_assoc($result)) {
+                print_r($row);
+                echo "<hr />";
+            }
+        } else {
+//            echo "0 results";
+            return false;
+        }
+    }
+
+// returns userID of nsid
+    function getUserID($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        // perform query
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(!$result){
+//            die("Database getUserID functions query failed!");
+            return false;
+        }
+
+        if (mysqli_num_rows($result) == 1) {
+            // output data of each row (_assoc for assoc array, _row for indexed array)
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userID"];
+            }
+        } 
+        else if(mysqli_num_rows($result) > 1){
+//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
+            return false;
+        }
+        else {
+            
+//            echo "There is no account registered with this email. Please make sure your sign in info is correct or register a new account. Thank you.";
+            return false;
+        }
+
+        mysqli_free_result($result);
+        
+        close($connection);
+    }
+
+// returns result of user with nsid
+    function getResult($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        // perform query
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        // test for errors
+        if(!$result){
+//            die("Database getResult functions query failed!");
+            return false;
+        }
+
+        if (mysqli_num_rows($result) == 1) {
+          return $result;
+        } 
+        else if(mysqli_num_rows($result) > 1){
+//            echo "There are more than 2 entries with same email! Please contact the owner of this site about this.";
+            return false;
+        }
+        else {
+            return false;
+        }
+
+        mysqli_free_result($result);
+        close($connection);
+        
+    }
+
+// returns password of user with nsid
     function getUserPassword($nsid){
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);
@@ -404,57 +444,116 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         close($connection);
     }
 
-    function setUserEmail($fromEmail, $toEmail){
+// return first name of user with nsid
+    function getFirstName($nsid){
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);
-        $id = getUserID($fromEmail);
-
-        $query = "UPDATE `users` SET ";
-        $query .= "`userNSID` = '{$toEmail}' ";
-        $query .= "WHERE `userID` = '{$id}'";
-
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
         $result = mysqli_query($connection, $query);
-        //$id = mysqli_insert_id($connection);
-        //echo "Your userID is: ".$id."\n";
 
-        // test for errors
-        if(mysqli_affected_rows($connection) == 0){
-//            echo "No user email change in DB!";
+        if(!$result){
             return false;
         }
-        else if($result){
-            return true;
-        }
-        else{
-//            die("Database update for setUserEmail query failed! ".mysqli_error($connection));
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userFirstName"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
             return false;
         }
+        mysqli_free_result($result);
         close($connection);
     }
 
-    function setUserPassword($nsid,$newPassword){
+// return last name of user with nsid
+    function getLastName($nsid){
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);
-        $query = "UPDATE `users` SET ";
-        $query .= "`userPassword` = '{$newPassword}' ";
-        $query .= "WHERE `userNSID` = '{$nsid}'";
-
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
         $result = mysqli_query($connection, $query);
-        //$id = mysqli_insert_id($connection);
-        //echo "Your userID is: ".$id."\n";
 
-        // test for errors
-        if(mysqli_affected_rows($connection) == 0){
-//            echo "No password change in DB!";
+        if(!$result){
             return false;
         }
-        else if($result){
-            return true;
-        }
-        else{
-//            die("Database update query for setUserPassword failed! ".mysqli_error($connection));
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userLastName"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
             return false;
         }
+        mysqli_free_result($result);
         close($connection);
     }
+
+// return image path of user with nsid
+    function getImagePath($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userImagePath"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// return college of user with nsid
+    function getCollege($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userCollege"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
 ?>

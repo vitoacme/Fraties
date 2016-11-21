@@ -3,6 +3,6 @@ jQuery(document).ready(function() {
     /*
         Fullscreen background
     */
-    $.backstretch("Images/loginBackground.jpg");    
+    $.backstretch("Login/Images/loginBackground.jpg");    
     
 });

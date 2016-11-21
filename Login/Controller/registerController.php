@@ -10,9 +10,6 @@
         
         // test for errors
         if($result){
-            session_start();
-            $_SESSION["userNSID"] = $nsid;
-            
             sendVerificationEmail($nsid);
             echo "<script type='text/javascript'>
                 $(document).ready(function(){
@@ -21,7 +18,7 @@
             </script>";
         }
         else{
-            echo "This email is already in use. Either sign in or use a different email. Thank you.";
+            echo "This NSID is already in use. Either sign in or use a different email. Thank you.";
         }   
     }
 ?>

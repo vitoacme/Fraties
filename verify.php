@@ -32,14 +32,6 @@ require_once 'Login/Controller/userClass.php';
             include 'Login/Controller/takeInfo.php';
             if(isset($_POST['submitUserInfo'])){
                 include 'Login/Controller/imageUpload.php';
-                $imagePath =  $target_file;
-                $FirstName = $_POST['FirstName'];
-                $LastName = $_POST['LastName'];
-                $college = $_POST['college'];
-                
-                setImageNameCollegeActive($nsid, $imagePath,$FirstName,$LastName,$college );
-                $_SESSION["userNSID"] = $nsid;
-                echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
             }
         }  else{
             echo "wrong link.";

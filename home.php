@@ -1,12 +1,15 @@
 <?php
     require_once 'Login/Controller/userClass.php';
     session_start();
-    if(isset($_SESSION["userNSID"])){
-        $NSID = $_SESSION["userNSID"];
+    $NSID = $_SESSION["userNSID"];
+    if(getUserActiveStatus($NSID)==1){
         $FirstName = getFirstName($NSID);
         $LastName = getLastName($NSID);
         $ImagePath = getImagePath($NSID);
         $College = getCollege($NSID);
+        $Followers = getFollowers($NSID);
+        $Following = getFollowing($NSID);
+        $Points = getPoints($NSID);
     } else {
         header('Location: login.php');
         exit;
@@ -84,15 +87,15 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-accordion w3-white">
           <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Points</button>
           <div id="Demo1" class="w3-accordion-content w3-container">
-            <p>240</p>
+            <p><?php echo $Points; ?></p>
           </div>
           <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-user fa-fw w3-margin-right"></i> Followers</button>
           <div id="Demo2" class="w3-accordion-content w3-container">
-            <p>56</p>
+            <p><?php echo $Followers; ?></p>
           </div>
           <button onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Following</button>
           <div id="Demo3" class="w3-accordion-content w3-container">
-            <p>400</p>
+            <p><?php echo $Following; ?></p>
           </div>
         </div>
       </div>

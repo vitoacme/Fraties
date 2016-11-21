@@ -1,6 +1,6 @@
 <?php
 // contains connect() and close() func for conenctions
-    require_once 'connectDB.php';
+    require_once 'Database/connectDB.php';
 
 // creates user with nsid and passowrd
     function createUser($nsid, $password){
@@ -546,6 +546,90 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
             while($row = mysqli_fetch_assoc($result)) {
 
                 return $row["userCollege"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// return points of user with nsid
+    function getPoints($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userPoints"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// return number of followers of user with nsid
+    function getFollowers($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userFollowers"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// return number of users user is following with nsid
+    function getFollowing($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userFollowing"];
             }
         } else if(mysqli_num_rows($result) > 1){
             return false;

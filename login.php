@@ -1,9 +1,9 @@
 <?php
-//    session_start();
-//   if(isset($_SESSION["userNSID"])){
-//       header('Location: verify.php');
-//       exit;
-//    }
+    session_start();
+   if(isset($_SESSION["userNSID"])){
+       header('Location: verify.php');
+       exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

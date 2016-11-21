@@ -1,7 +1,5 @@
 <?php
     require_once 'Login/Controller/userClass.php';
-    session_start();
-    $nsid = $_SESSION["userNSID"];
 
     if(isset($_POST['resend'])){
         sendVerificationEmail($nsid);

@@ -85,6 +85,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     	<input type="text" name="FirstName" placeholder="First Name" required="required" />
     	<input type="text" name="LastName" placeholder="Last Name" required="required" />
         <p>Choose a profile picture:</p>
+        <sup style="color:#df6161;">Only jpg, jpeg, png & gif files under 5MB allowed.</sup>
         <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" required>
         <div class="form-group">
           <label for="college" name="college">Select your college:</label><br><br>

@@ -1,5 +1,6 @@
 <?php
     require_once 'Login/Controller/userClass.php';
+    require_once 'Post/Controller/postClass.php';
     session_start();
     $NSID = $_SESSION["userNSID"];
     if(getUserActiveStatus($NSID)==1){
@@ -19,7 +20,7 @@
 <html>
 <title>Fraties</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<!--<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">-->
 <link rel="stylesheet" href="CSS/homeTheme.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -138,52 +139,54 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         </div>
       </div>
       <br>
-    
     <!-- End Left Column -->
     </div>
     
-    <!-- Posts/Feeds -->
+    <!-- Middle Column -->
     <div class="w3-col m7">
-    
+<!--    create a post-->
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Do you wanna tell others something?</h6>
-              <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-              <button type="button" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i>  Post</button>
+                <form class="w3-container" autocomplete="off" method="post">
+                    <?php 
+                            // post the post
+                            if(isset($_POST['post'])){
+                                $post =$_POST['post'];
+                                createPost($NSID, $post);
+                                echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
+                                exit;
+                            }
+                    ?>
+                    <label class="w3-opacity">Say something I'm giving up on you!</label>
+                    <input placeholder="type here..." class="w3-input" name="post" type="text" required>
+                    <button type="submit" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i>Post</button>
+                </form>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
-        <img src="Images/curls.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">1 min</span>
-        <h4>John Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src="Images/IMG_6658.JPG" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-            </div>
-            <div class="w3-half">
-              <img src="Images/IMG_8181.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-          </div>
-        </div>
-        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
-      </div>
-      
-      <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
-        <img src="Images/14115073_10157326867470463_6479636924758928947_o.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">16 min</span>
-        <h4>Jane Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
-        <button type="button" class="w3-btn w3-theme-d5 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
-      </div>
+<!--      display the feed-->
+<?php
+$result = displayPosts();
+while($row = mysqli_fetch_assoc($result)) {
+    $postNsid = $row["userNSID"];
+        echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'><br>";
+        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+        echo "<span class='w3-right w3-opacity'>2 min</span>";
+        echo "<h4>";
+            echo getFirstName($postNsid)." ".getLastName($postNsid);
+        echo "</h4><br>";
+        echo "<hr class='w3-clear'>";
+        echo "<p>";
+            echo $row["postText"];
+        echo "</p>";
+        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i>  Like</button>";
+        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>  Comment</button>";
+        echo "</div>";
+}
+?>
       
     <!-- End Middle Column -->
     </div>

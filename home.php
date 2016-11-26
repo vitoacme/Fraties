@@ -59,7 +59,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-dropdown-content w3-white w3-card-3">
           <a href="#">Profile</a>
           <a href="#">Settings</a>
-          <a href="#">Logout</a>
+          <a id="logout" href="Login/Controller/logout.php">Logout</a>
+<!--
+            <script>
+                document.getElementById("logout").onclick = function () {
+                    location.href = "Controller/logout.php";
+                };    
+            </script>
+-->
         </div>
   </li>
  </ul>

@@ -19,14 +19,19 @@
 <!DOCTYPE html>
 <html>
 <title>Fraties</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">-->
-<link rel="stylesheet" href="CSS/homeTheme.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
-</style>
+<head>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">-->
+    <link rel="stylesheet" href="CSS/homeTheme.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+    </style>
+</head>
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -167,11 +172,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           </div>
         </div>
       </div>
-      
-        <!-- display the feed-->
+<!-- display the feed-->
 <?php
 $result = displayPosts();
 while($row = mysqli_fetch_assoc($result)) {
+    $postID = $row["postID"];
     $postNsid = $row["userNSID"];
     $postText = $row["postText"];
     $postUpVotes = " ".$row["postUpVotes"];
@@ -190,16 +195,13 @@ while($row = mysqli_fetch_assoc($result)) {
         echo "<p>";
             echo $postText;
         echo "</p>";
+            echo "<button type='submit' onclick='upVote(this)' value='".$postID."' class='upvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i><span id='up".$postID."'>".$postUpVotes."</span></button> ";
     
-        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i>".$postUpVotes."</button> ";
-    
-        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i>".$postDownVotes."</button> ";
-    
+            echo "<button type='submit' onclick='downVote(this)' value='".$postID."' class='downvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i><span id='down".$postID."'>".$postDownVotes."</span></button> ";
 //        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>".$postCommentCount."</button>";
         echo "</div>";
 }
-?>
-      
+?>    
     <!-- End Middle Column -->
     </div>
     
@@ -247,6 +249,44 @@ while($row = mysqli_fetch_assoc($result)) {
 </footer>
  
 <script>
+// logout function
+    document.getElementById("logout").onclick = function () {
+        location.href = "Controller/logout.php";
+    };    
+// update upvotes of the post in db and on page without reloading
+function upVote(ele) {
+    var id = parseInt (ele.value);
+//        document.getElementById("demo").innerHTML = value;
+    $.ajax({
+         url:"Post/Controller/postUpvote.php",
+         method:"POST",
+         data:{id:id},
+         success: function(data){
+         
+            var str2 = id;
+            var str1 = "up";
+            var res = str1.concat(str2);
+            document.getElementById(res).innerHTML = " "+data;
+         }
+    });
+}
+// update downvotes of the post in db and on page without reloading
+function downVote(ele) {
+    var id = parseInt (ele.value);
+//        document.getElementById("demo").innerHTML = value;
+    $.ajax({
+         url:"Post/Controller/postDownvote.php",
+         method:"POST",
+         data:{id:id},
+         success: function(data){
+         
+            var str2 = id;
+            var str1 = "down";
+            var res = str1.concat(str2);
+            document.getElementById(res).innerHTML = " "+data;
+         }
+    });
+}
 // Accordion
 function myFunction(id) {
     var x = document.getElementById(id);

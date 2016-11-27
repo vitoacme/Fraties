@@ -33,7 +33,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <ul class="w3-navbar w3-theme-d5 w3-left-align w3-large">
   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
-    <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+    <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar"></i></a>
   </li>
      <!-- Feed page/News  -->
   <li><a href="#" class="w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Fraties</a></li>
@@ -52,15 +52,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
     </div>
   </li>
      <!-- Profile picture on top right -->
-  
-  <li class="w3-hide-small w3-dropdown-hover w3-right">
+  <li class="w3-dropdown-hover w3-hide-small w3-right">
       <div class="w3-padding-large w3-hover-white" title="My Account">
           <img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
       </div>
-        <div class="w3-dropdown-content w3-white w3-card-3">
-          <a href="#">Profile</a>
-          <a href="#">Settings</a>
-          <a id="logout" href="Login/Controller/logout.php">Logout</a>
+        <div class="w3-padding-0 w3-dropdown-content w3-white w3-card-4">
+          <a href="#" style="font-size: 70%;">Profile</a>
+          <a href="#" style="font-size: 70%;">Settings</a>
+          <a id="logout" href="Login/Controller/logout.php" style="font-size: 70%;">Logout</a>
 <!--
             <script>
                 document.getElementById("logout").onclick = function () {
@@ -76,10 +75,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 <!-- Navbar on small screens -->
 <div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:51px">
   <ul class="w3-navbar w3-left-align w3-large w3-theme">
-    <li><a class="w3-padding-large" href="#">Link 1</a></li>
-    <li><a class="w3-padding-large" href="#">Link 2</a></li>
-    <li><a class="w3-padding-large" href="#">Link 3</a></li>
-    <li><a class="w3-padding-large" href="#">My Profile</a></li>
+    <li><a href="#" style="font-size: 70%;">Profile</a></li>
+    <li><a href="#" style="font-size: 70%;">Settings</a></li>
+    <li><a id="logout" href="Login/Controller/logout.php" style="font-size: 70%;">Logout</a></li>
   </ul>
 </div>
 
@@ -87,7 +85,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
   <!-- The Grid -->
   <div class="w3-row">
-    <!-- Left Column -->
+   
+    <!-- Profile data + Tags: Left Column -->
     <div class="w3-col m3">
       <!-- Profile -->
       <div class="w3-card-2 w3-round w3-white">
@@ -140,11 +139,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       </div>
       <br>
     <!-- End Left Column -->
-    </div>
+    </div>  
     
-    <!-- Middle Column -->
+    <!-- Feed + Post: Middle Column -->
     <div class="w3-col m7">
-<!--    create a post-->
+    
+        <!-- create a post-->
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
@@ -161,29 +161,41 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
                     ?>
                     <label class="w3-opacity">Say something I'm giving up on you!</label>
                     <input placeholder="type here..." class="w3-input" name="post" type="text" required>
-                    <button type="submit" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i>Post</button>
+                    <button type="submit" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i> Post</button>
                 </form>
             </div>
           </div>
         </div>
       </div>
-<!--      display the feed-->
+      
+        <!-- display the feed-->
 <?php
 $result = displayPosts();
 while($row = mysqli_fetch_assoc($result)) {
     $postNsid = $row["userNSID"];
+    $postText = $row["postText"];
+    $postUpVotes = " ".$row["postUpVotes"];
+    $postDownVotes = " ".$row["postDownVotes"];
+    $postCommentCount = " ".$row["postComments"];
+    $nowtime = date(time());
+    $postTime = strtotime($row["postTime"]);
+    
         echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'><br>";
         echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
-        echo "<span class='w3-right w3-opacity'>2 min</span>";
+        echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
             echo getFirstName($postNsid)." ".getLastName($postNsid);
         echo "</h4><br>";
         echo "<hr class='w3-clear'>";
         echo "<p>";
-            echo $row["postText"];
+            echo $postText;
         echo "</p>";
-        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i>  Like</button>";
-        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>  Comment</button>";
+    
+        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i>".$postUpVotes."</button> ";
+    
+        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i>".$postDownVotes."</button> ";
+    
+//        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>".$postCommentCount."</button>";
         echo "</div>";
 }
 ?>
@@ -191,7 +203,7 @@ while($row = mysqli_fetch_assoc($result)) {
     <!-- End Middle Column -->
     </div>
     
-    <!-- Leaderboards -->
+    <!-- Leaderboards : Rigth Column -->
     <div class="w3-col m2">
       <div class="w3-card-2 w3-round w3-white w3-center">
         <div class="w3-container">
@@ -231,7 +243,7 @@ while($row = mysqli_fetch_assoc($result)) {
 
 <!-- Footer -->
 <footer class="w3-container">
-  <p>Fraties 2016. Create by Anja Gilje and Vishal Tomar.</p>
+  <p>&copy; Fraties <?php echo date("Y");?>.</p>
 </footer>
  
 <script>
@@ -247,7 +259,6 @@ function myFunction(id) {
         x.previousElementSibling.className.replace(" w3-theme-d1", "");
     }
 }
-
 // Used to toggle the menu on smaller screens when clicking on the menu button
 function openNav() {
     var x = document.getElementById("navDemo");

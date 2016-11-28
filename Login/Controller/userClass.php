@@ -1,5 +1,6 @@
 <?php
 // contains connect() and close() func for conenctions
+//    require_once '../../Database/connectDB.php';
     require_once 'Database/connectDB.php';
 
 // creates user with nsid and passowrd
@@ -53,6 +54,54 @@
         close($connection);
     }
     
+// sets user's upvotes
+    function setUserUpvotes($nsid,$upvotes){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userUpvotes` = '{$upvotes}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+        $result = mysqli_query($connection, $query);
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No password change in DB!";
+            return false;
+        }
+        else if($result){
+            return true;
+        }
+        else{
+//            die("Database update query for setUserPassword failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
+    }
+
+// sets user's points
+    function setPoints($nsid,$points){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userPoints` = '{$points}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+        $result = mysqli_query($connection, $query);
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No password change in DB!";
+            return false;
+        } else if($result){
+            return true;
+        } else{
+//            die("Database update query for setUserPassword failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
+    }
+//    echo "water";
+//    $nsid = "vit655";
+//    $upvotes = 9;
+//    setUserUpvotes($nsid,$upvotes);
+//    echo getUserUpvotes($nsid);
+    
+
 // sets user of nsid to active
     function setUserToActive($nsid){
         
@@ -574,34 +623,6 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
             while($row = mysqli_fetch_assoc($result)) {
 
                 return $row["userPoints"];
-            }
-        } else if(mysqli_num_rows($result) > 1){
-            return false;
-        } else {
-            return false;
-        }
-        mysqli_free_result($result);
-        close($connection);
-    }
-
-// return number of followers of user with nsid
-    function getFollowers($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        if(!$result){
-            return false;
-        }
-        if (mysqli_num_rows($result) == 1) {
-            while($row = mysqli_fetch_assoc($result)) {
-
-                return $row["userFollowers"];
             }
         } else if(mysqli_num_rows($result) > 1){
             return false;

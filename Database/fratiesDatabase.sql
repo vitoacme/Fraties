@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 28, 2016 at 09:22 PM
+-- Generation Time: Nov 28, 2016 at 11:54 PM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -26,6 +26,7 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `postID` int(254) UNSIGNED NOT NULL,
   `userNSID` varchar(100) NOT NULL,
+  `userCollege` varchar(500) NOT NULL,
   `postText` varchar(150) NOT NULL,
   `postUpVotes` int(254) NOT NULL DEFAULT '0',
   `postDownVotes` int(254) NOT NULL DEFAULT '0',
@@ -37,12 +38,16 @@ CREATE TABLE `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`postID`, `userNSID`, `postText`, `postUpVotes`, `postDownVotes`, `postComments`, `postTime`) VALUES
-(12, 'sym123', 'haha this is Smon first post!', 10, 0, 0, '2016-11-28 20:22:04'),
-(14, 'sym123', 'hi vito', 15, -1, 0, '2016-11-28 20:21:54'),
-(15, 'vit655', 'omg hi ', 24, -1, 3, '2016-11-28 20:22:06'),
-(16, 'vit655', 'this is a pain in asss', 42, -12, 0, '2016-11-28 20:22:01'),
-(17, 'vit655', 'succes with no reloading!', 37, -13, 0, '2016-11-28 20:21:55');
+INSERT INTO `posts` (`postID`, `userNSID`, `userCollege`, `postText`, `postUpVotes`, `postDownVotes`, `postComments`, `postTime`) VALUES
+(18, 'vit655', 'Arts & Science', 'this is the first post!', 1, -1, 0, '2016-11-28 21:17:46'),
+(19, 'sym123', 'Arts & Science', 'this is Symon\'s post!', 1, 0, 0, '2016-11-28 21:28:51'),
+(20, 'sym123', 'Arts & Science', 'lets move upvote points to 4', 0, 0, 0, '2016-11-28 21:59:22'),
+(21, 'sym123', 'Arts & Science', 'try again', 0, 0, 0, '2016-11-28 22:04:17'),
+(22, 'sym123', 'Arts & Science', 'try again #2', 0, 0, 0, '2016-11-28 22:04:48'),
+(23, 'sym123', 'Arts & Science', 'try again #5', 0, 0, 0, '2016-11-28 22:04:55'),
+(24, 'sym123', 'Arts & Science', 'post a post', 0, 0, 0, '2016-11-28 22:11:17'),
+(25, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote', 0, -1, 0, '2016-11-28 22:17:11'),
+(26, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote #2', 1, 0, 0, '2016-11-28 22:17:07');
 
 -- --------------------------------------------------------
 
@@ -59,9 +64,9 @@ CREATE TABLE `users` (
   `userLastName` varchar(500) NOT NULL,
   `userCollege` varchar(500) NOT NULL,
   `userImagePath` varchar(1000) NOT NULL,
-  `userPoints` int(224) NOT NULL DEFAULT '0',
-  `userFollowers` int(224) NOT NULL DEFAULT '0',
-  `userFollowing` int(224) NOT NULL DEFAULT '0',
+  `userPoints` int(254) NOT NULL DEFAULT '0',
+  `userUpvotes` int(254) NOT NULL DEFAULT '0',
+  `userDownvotes` int(254) NOT NULL DEFAULT '0',
   `userActive` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -69,8 +74,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userFollowers`, `userFollowing`, `userActive`) VALUES
-(3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 0, 0, 0, 1),
+INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userUpvotes`, `userDownvotes`, `userActive`) VALUES
+(3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 4, 0, 0, 1),
 (1, 'vit655', '123', 'Vishal', 'Tomar', 'Arts & Science', 'UserImages/mypic.jpg', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
@@ -93,11 +98,11 @@ CREATE TABLE `votes` (
 --
 
 INSERT INTO `votes` (`voteID`, `postID`, `userNSID`, `vote`, `voteTime`) VALUES
-(58, 14, 'vit655', 0, '2016-11-28 20:21:54'),
-(59, 17, 'vit655', 0, '2016-11-28 20:21:55'),
-(66, 16, 'vit655', 1, '2016-11-28 20:22:01'),
-(70, 12, 'vit655', 1, '2016-11-28 20:22:04'),
-(76, 15, 'vit655', 0, '2016-11-28 20:22:06');
+(80, 18, 'vit655', 1, '2016-11-28 21:17:13'),
+(93, 18, 'sym123', 0, '2016-11-28 21:17:46'),
+(94, 19, 'sym123', 1, '2016-11-28 21:28:51'),
+(114, 26, 'sym123', 1, '2016-11-28 22:17:07'),
+(115, 25, 'sym123', 0, '2016-11-28 22:17:11');
 
 --
 -- Indexes for dumped tables
@@ -134,7 +139,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -144,7 +149,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 --
 -- Constraints for dumped tables
 --

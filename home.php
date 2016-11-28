@@ -9,8 +9,8 @@
         $ImagePath = getImagePath($NSID);
         $College = getCollege($NSID);
         $_SESSION["userCollege"] = $College;
-        $Followers = getFollowers($NSID);
-        $Following = getFollowing($NSID);
+        $upvotes = getUserUpvotes($NSID);
+        $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
     } else {
         header('Location: login.php');
@@ -109,17 +109,17 @@
       <!-- Followers/Points/Following -->
       <div class="w3-card-2 w3-round">
         <div class="w3-accordion w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Points</button>
+          <button title="Your total points" onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Points</button>
           <div id="Demo1" class="w3-accordion-content w3-container">
             <p><?php echo $Points; ?></p>
           </div>
-          <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-user fa-fw w3-margin-right"></i> Followers</button>
+          <button title="Upvotes recieved" onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-up  fa-fw w3-margin-right"></i> Upvotes</button>
           <div id="Demo2" class="w3-accordion-content w3-container">
-            <p><?php echo $Followers; ?></p>
+            <p><?php echo $upvotes; ?></p>
           </div>
-          <button onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Following</button>
+          <button title="Downvotes recieved" onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-down  fa-fw w3-margin-right"></i> Downvotes</button>
           <div id="Demo3" class="w3-accordion-content w3-container">
-            <p><?php echo $Following; ?></p>
+            <p><?php echo $downvotes; ?></p>
           </div>
         </div>
       </div>
@@ -161,6 +161,10 @@
                             if(isset($_POST['post'])){
                                 $post =$_POST['post'];
                                 createPost($NSID, $post, $College);
+                                $points = getPoints($NSID) + 1;
+                                setPoints($NSID, $points);
+//                                $upvotes = getUserUpvotes($NSID) + 1;
+//                                setUserUpvotes($NSID,$upvotes);
                                 echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
                                 exit;
                             }

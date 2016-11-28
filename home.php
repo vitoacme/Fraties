@@ -8,6 +8,7 @@
         $LastName = getLastName($NSID);
         $ImagePath = getImagePath($NSID);
         $College = getCollege($NSID);
+        $_SESSION["userCollege"] = $College;
         $Followers = getFollowers($NSID);
         $Following = getFollowing($NSID);
         $Points = getPoints($NSID);
@@ -159,7 +160,7 @@
                             // post the post
                             if(isset($_POST['post'])){
                                 $post =$_POST['post'];
-                                createPost($NSID, $post);
+                                createPost($NSID, $post, $College);
                                 echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
                                 exit;
                             }

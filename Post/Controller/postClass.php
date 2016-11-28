@@ -3,18 +3,19 @@
     require_once 'Database/connectDB.php';
 //require_once '../../Database/connectDB.php';
 
-// creates user with nsid and passowrd
-    function createPost($nsid, $post){
+// creates post with nsid, college and post text
+    function createPost($nsid, $post, $College){
         // connect to database
         $connection = connect();
         
         $nsid = mysqli_real_escape_string($connection, $nsid);
-        $password = mysqli_real_escape_string($connection, $password);
+        $College = mysqli_real_escape_string($connection, $College);
+        $post = mysqli_real_escape_string($connection, $post);
         
         $query = "INSERT INTO `posts`";
-        $query .="(`postID`, `userNSID`, `postText`, `postUpVotes`, `postDownVotes`, `postComments`, `postTime`) ";
+        $query .="(`postID`, `userNSID`, `postText`, `userCollege`, `postUpVotes`, `postDownVotes`, `postComments`, `postTime`) ";
         $query .= "VALUES ";
-        $query .= "(NULL, '{$nsid}', '{$post}', '0', '0', '0', CURRENT_TIMESTAMP)";
+        $query .= "(NULL, '{$nsid}', '{$post}', '{$College}', '0', '0', '0', CURRENT_TIMESTAMP)";
         
         $result = mysqli_query($connection, $query);
         

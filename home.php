@@ -172,6 +172,7 @@
           </div>
         </div>
       </div>
+      
 <!-- display the feed-->
 <?php
 $result = displayPosts();

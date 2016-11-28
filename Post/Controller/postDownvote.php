@@ -4,14 +4,39 @@
     $NSID = $_SESSION["userNSID"];
 
 //echo "Water";
-if(isset($_POST["id"])){
+if(isset($_POST["id"])){    
     $postID = $_POST["id"];
-    setDownVote($postID);
+    if(createDownVote($NSID, $postID)){
+        setDownVote($postID);
+    }
     echo getDownVotes($postID);
-    
-    // ToDo add the userNSID to new table which holds all the upvotes with postID and userID to avoid moltiple upvoting and downvoting
 }
 
+// creates upvote with nsid and postid
+    function createDownVote($NSID, $postID){
+        // connect to database
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $postID = mysqli_real_escape_string($connection, $postID);
+        $query = "INSERT INTO `votes`";
+        $query .="(`postID`, `userNSID`, `vote`) ";
+        $query .= "VALUES ";
+        $query .= "('{$postID}', '{$NSID}', '0')";
+        $result = mysqli_query($connection, $query);
+        // test for errors
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No post added to db!";
+            return false;
+        } else if($result){
+            return true;
+        } else{
+//            die("Cannon insert into table votes! ".$NSID.$postID.mysqli_error($connection));
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+        return $result;
+    }
 // decrese downvotes of post by one
     function setDownVote($postID){
         $downvotes = getDownVotes($postID) - 1;
@@ -52,5 +77,4 @@ if(isset($_POST["id"])){
         mysqli_free_result($result);
         close($connection);
     }
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-//require_once 'Login/Controller/userClass.php';
+require_once 'Login/Controller/userClass.php';
 
     session_start();
     $nsid = $_SESSION["userNSID"];

@@ -97,8 +97,8 @@
 <!--    sort by college-->
     <li>
         <div class="w3-accordion w3-white">
-          <button title="sort feeds by college" onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-d4"><i class="fa fa-filter fa-fw w3-margin-right"></i> Sort</button>
-          <div id="Demo1" class="w3-accordion-content w3-container">
+          <button title="sort feeds by college" onclick="myFunction('Demo4')" class="w3-btn-block w3-theme-d4"><i class="fa fa-filter fa-fw w3-margin-right"></i> Sort</button>
+          <div id="Demo4" class="w3-accordion-content w3-container">
             <a href="Arts&Science.php" class="w3-padding-large w3-hover-white" title="Arts & Science"><i class="fa fa-paint-brush"></i><i class="fa fa-flask"></i> Arts & Science</a>
             <a href="Agriculture.php" class="w3-padding-large w3-hover-white" title="Agriculture and Bioresources"><i class="glyphicon glyphicon-grain"></i> Agriculture and Bioresources</a>
             <a href="ESB.php" class="w3-padding-large w3-hover-white" title="Edwards School of Business"><i class="fa fa-usd"></i> Edwards School of Business</a>

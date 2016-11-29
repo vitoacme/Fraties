@@ -9,8 +9,10 @@ if(isset($_POST["id"])){
     if(createUpVote($NSID, $postID)){
         setUpVote($postID);
         
-        $upvotes = getUserUpvotes($NSID) + 1;
-        setUserUpvotes($NSID,$upvotes);
+        
+        $postOwner = getUserOfPost($postID);
+        $upvotes = getUserUpvotes($postOwner) + 1;
+        setUserUpvotes($postOwner,$upvotes);
         
         $points = getPoints($NSID) + 1;
         setPoints($NSID, $points);
@@ -66,6 +68,29 @@ if(isset($_POST["id"])){
         close($connection);
     }
 
+// returns owner of post with id
+    function getUserOfPost($postID){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "SELECT * ";
+        $query .= "FROM `posts` ";
+        $query .= "WHERE `postID` = '$postID' ";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userNSID"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
 
 // sets user's points
     function setPoints($nsid,$points){

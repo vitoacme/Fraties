@@ -9,10 +9,11 @@ if(isset($_POST["id"])){
     if(createDownVote($NSID, $postID)){
         setDownVote($postID);
         
-        $downvotes = getUserDownvotes($NSID) - 1;
-        setUserDownvotes($NSID,$downvotes);
+        $postOwner = getUserOfPost($postID);
+        $downvotes = getUserDownvotes($postOwner) - 1;
+        setUserDownvotes($postOwner,$downvotes);
         
-        $points = getPoints($NSID) - 1;
+        $points = getPoints($NSID) + 1;
         setPoints($NSID, $points);
     }
     echo getDownVotes($postID);
@@ -114,6 +115,29 @@ if(isset($_POST["id"])){
         close($connection);
     }
 
+// returns owner of post with id
+    function getUserOfPost($postID){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "SELECT * ";
+        $query .= "FROM `posts` ";
+        $query .= "WHERE `postID` = '$postID' ";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userNSID"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
 
 // creates upvote with nsid and postid
     function createDownVote($NSID, $postID){

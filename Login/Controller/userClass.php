@@ -228,36 +228,62 @@
 
 // sets image path, college, first and last name of the user with nsid
     function setImageNameCollegeActive($nsid, $imagePath,$FirstName,$LastName,$college ){
-        
         $connection = connect();
         $nsid = mysqli_real_escape_string($connection, $nsid);
         $FirstName = mysqli_real_escape_string($connection, $FirstName);
         $LastName = mysqli_real_escape_string($connection, $LastName);
         $college = mysqli_real_escape_string($connection, $college);
-
         $query = "UPDATE `users` SET ";
         $query .= "`userActive` = '1', `userFirstName` = '{$FirstName}', `userLastName` = '{$LastName}', `userCollege` = '{$college}', `userImagePath` = '{$imagePath}' ";
         $query .= "WHERE `userNSID` = '{$nsid}'";
-
         $result = mysqli_query($connection, $query);
-        //$id = mysqli_insert_id($connection);
-        //echo "Your userID is: ".$id."\n";
-
-        // test for errors
         if(mysqli_affected_rows($connection) == 0){
-//            echo "No change in DB!";
             return false;
-        }
-        else if($result){
-//            echo "done!";
+        } else if($result){
             return true;
-        }
-        else{
-            die("Database update for setUserEmail query failed! ".mysqli_error($connection));
+        } else{
             return false;
         }
         close($connection);
-        
+    }
+
+// set image
+    function setImage($nsid, $imagePath){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userImagePath` = '{$imagePath}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+        $result = mysqli_query($connection, $query);
+        if(mysqli_affected_rows($connection) == 0){
+            return false;
+        } else if($result){
+            return true;
+        } else{
+            return false;
+        }
+        close($connection);
+    }
+
+// sets fname, lname and college
+    function setNameCollege($nsid,$FirstName,$LastName,$college){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $FirstName = mysqli_real_escape_string($connection, $FirstName);
+        $LastName = mysqli_real_escape_string($connection, $LastName);
+        $college = mysqli_real_escape_string($connection, $college);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userFirstName` = '{$FirstName}', `userLastName` = '{$LastName}', `userCollege` = '{$college}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+        $result = mysqli_query($connection, $query);
+        if(mysqli_affected_rows($connection) == 0){
+            return false;
+        } else if($result){
+            return true;
+        } else{
+            return false;
+        }
+        close($connection);
     }
 
 // checks if user with this nsid and password is in db or not

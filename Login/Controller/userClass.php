@@ -711,5 +711,4 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
         mysqli_free_result($result);
         close($connection);
     }
-
 ?>

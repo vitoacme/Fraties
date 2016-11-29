@@ -41,33 +41,167 @@
 // return assoc array of all posts order by DESC time
     function displayPosts(){
         $connection = connect();
-
-        // perform query
         $query = "SELECT * FROM `posts`";
         $query .= "ORDER BY `postTime` DESC";
-
         $result = mysqli_query($connection, $query);
-
-        // test for errors
         if(!$result){
             die("Database display query failed!");
             return false;
         }
         if (mysqli_num_rows($result) > 0) {
             return $result;
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-//            while($row = mysqli_fetch_assoc($result)) {
-//                print_r($row);
-//                echo "<hr />";
-//            }
         } else {
-//            echo "0 results";
             return false;
         }
-
         mysqli_free_result($result);
         close($connection);
     }
+// displays posts of user with id
+    function displayPostsOfID($nsid){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+
+// displays posts of arts
+    function displayPostsOfArts(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Arts & Science' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of Agriculture
+    function displayPostsOfAgri(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Agriculture and Bioresources' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of ESB
+    function displayPostsOfESB(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Edwards School of Business' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of Education
+    function displayPostsOfEdu(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Education' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of Engineering
+    function displayPostsOfEng(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Engineering' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of Kinesiology
+    function displayPostsOfKin(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'Kinesiology' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+// displays posts of St. Thomas More
+    function displayPostsOfSTM(){
+        $connection = connect();
+        $query = "SELECT * FROM `posts`";
+        $query .= "WHERE `userCollege` = 'St. Thomas More' ";
+        $query .= "ORDER BY `postTime` DESC";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+
 // takes difference in seconds and returns time in words
     function secondsToString($secs){
     $bit = array(

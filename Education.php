@@ -198,24 +198,8 @@
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
-            <div class="w3-container w3-padding">
-                <form class="w3-container" autocomplete="off" method="post">
-                    <?php 
-                            // post the post
-                            if(isset($_POST['post'])){
-                                $post =$_POST['post'];
-                                createPost($NSID, $post, $College);
-                                
-                                $points = getPoints($NSID) + 1;
-                                setPoints($NSID, $points);
-                                echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
-                                exit;
-                            }
-                    ?>
-                    <label class="w3-opacity">Say something I'm giving up on you!</label>
-                    <input placeholder="type here..." class="w3-input" name="post" type="text" required>
-                    <button type="submit" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i> Post</button>
-                </form>
+            <div class="w3-container w3-center w3-padding"><br>
+            <label class="w3-opacity" style="font-size: 2em;">Welcome to Education!</label>
             </div>
           </div>
         </div>
@@ -223,7 +207,7 @@
       
 <!-- display the feed-->
 <?php
-$result = displayPosts();
+$result = displayPostsOfEdu();
 while($row = mysqli_fetch_assoc($result)) {
     $postID = $row["postID"];
     $postNsid = $row["userNSID"];

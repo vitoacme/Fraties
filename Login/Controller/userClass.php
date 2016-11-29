@@ -425,37 +425,21 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
     }
     
 // displays all users
-    function displayDB(){
-
+    function displayUserDB(){
         $connection = connect();
-
-        // perform query
         $query = "SELECT * ";
         $query .= "FROM `users` ";
-        //$query .= "WHERE userType = 'Employer' ";
-        //$query .= "WHERE userType = 'Student' ";
-        $query .= "ORDER BY userNSID ASC";
-
+        $query .= "ORDER BY userPoints DESC";
         $result = mysqli_query($connection, $query);
-
-        // test for errors
         if(!$result){
-//            die("Database display query failed!");
             return false;
         }
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row (_assoc for assoc array, _row for indexed array)
-            while($row = mysqli_fetch_assoc($result)) {
-                print_r($row);
-                echo "<hr />";
-            }
+            return $result;
         } else {
-//            echo "0 results";
             return false;
         }
-
         mysqli_free_result($result);
-
         close($connection);
     }
 

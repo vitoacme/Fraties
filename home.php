@@ -221,21 +221,19 @@ while($row = mysqli_fetch_assoc($result)) {
           <p>List of fraties with the highest points:</p>
 
           <ul class="w3-ul">
-            <li class="w3-padding-16">
-              <img src="Images/curls.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
-              <span class="w3-xlarge">John</span><br>
-              <span>451 points</span>
-            </li>
-            <li class="w3-padding-16">
-              <img src="Images/14115073_10157326867470463_6479636924758928947_o.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
-              <span class="w3-xlarge">Jane</span><br>
-              <span>378 points</span>
-            </li>
-            <li class="w3-padding-16">
-              <img src='<?php echo $ImagePath; ?>' class="w3-left w3-circle w3-margin-right" style="width:60px">
-              <span class="w3-xlarge">Vito</span><br>
-              <span>240 points</span>
-            </li>
+<?php
+$leaders = displayUserDB();
+while($row = mysqli_fetch_assoc($leaders)) {
+    $imagePath = $row["userImagePath"];
+    $points = $row["userPoints"];
+    $name = $row["userFirstName"];
+            echo "<li class='w3-padding-16'>";
+              echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+              echo "<span class='w3-xlarge'>{$name}</span><br>";
+              echo "<span>{$points} points</span>";
+            echo "</li>";
+}
+?>
           </ul>
         </div>
       </div>

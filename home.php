@@ -161,8 +161,10 @@
                             if(isset($_POST['post'])){
                                 $post =$_POST['post'];
                                 createPost($NSID, $post, $College);
+                                
                                 $points = getPoints($NSID) + 1;
                                 setPoints($NSID, $points);
+                                
 //                                $upvotes = getUserUpvotes($NSID) + 1;
 //                                setUserUpvotes($NSID,$upvotes);
                                 echo "<script type='text/javascript'>window.location.href ='home.php';</script>";

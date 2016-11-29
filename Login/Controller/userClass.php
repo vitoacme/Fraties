@@ -75,6 +75,32 @@
         }
         close($connection);
     }
+// return number of upvotes of user with nsid
+    function getUserUpvotes($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userUpvotes"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
 
 // sets user's points
     function setPoints($nsid,$points){
@@ -95,12 +121,81 @@
         }
         close($connection);
     }
-//    echo "water";
-//    $nsid = "vit655";
-//    $upvotes = 9;
-//    setUserUpvotes($nsid,$upvotes);
-//    echo getUserUpvotes($nsid);
-    
+// return points of user with nsid
+    function getPoints($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+
+                return $row["userPoints"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+// sets user's downvotes
+    function setUserDownvotes($nsid,$downvotes){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "UPDATE `users` SET ";
+        $query .= "`userDownvotes` = '{$downvotes}' ";
+        $query .= "WHERE `userNSID` = '{$nsid}'";
+        $result = mysqli_query($connection, $query);
+        if(mysqli_affected_rows($connection) == 0){
+//            echo "No password change in DB!";
+            return false;
+        }
+        else if($result){
+            return true;
+        }
+        else{
+//            die("Database update query for setUserPassword failed! ".mysqli_error($connection));
+            return false;
+        }
+        close($connection);
+    }
+// return number of downvotes of user with nsid
+    function getUserDownvotes($nsid){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        
+        $query = "SELECT * ";
+        $query .= "FROM `users` ";
+        $query .= "WHERE `userNSID` = '$nsid' ";
+       
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userDownvotes"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
 
 // sets user of nsid to active
     function setUserToActive($nsid){
@@ -595,34 +690,6 @@ http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.
             while($row = mysqli_fetch_assoc($result)) {
 
                 return $row["userCollege"];
-            }
-        } else if(mysqli_num_rows($result) > 1){
-            return false;
-        } else {
-            return false;
-        }
-        mysqli_free_result($result);
-        close($connection);
-    }
-
-// return points of user with nsid
-    function getPoints($nsid){
-        $connection = connect();
-        $nsid = mysqli_real_escape_string($connection, $nsid);
-        
-        $query = "SELECT * ";
-        $query .= "FROM `users` ";
-        $query .= "WHERE `userNSID` = '$nsid' ";
-       
-        $result = mysqli_query($connection, $query);
-
-        if(!$result){
-            return false;
-        }
-        if (mysqli_num_rows($result) == 1) {
-            while($row = mysqli_fetch_assoc($result)) {
-
-                return $row["userPoints"];
             }
         } else if(mysqli_num_rows($result) > 1){
             return false;

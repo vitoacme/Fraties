@@ -12,7 +12,7 @@ if(isset($_POST["id"])){
         $downvotes = getUserDownvotes($NSID) - 1;
         setUserDownvotes($NSID,$downvotes);
         
-        $points = getPoints($NSID) + 1;
+        $points = getPoints($NSID) - 1;
         setPoints($NSID, $points);
     }
     echo getDownVotes($postID);

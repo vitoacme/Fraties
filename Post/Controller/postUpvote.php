@@ -9,7 +9,7 @@ if(isset($_POST["id"])){
     if(createUpVote($NSID, $postID)){
         setUpVote($postID);
         
-        $upvotes = getUserUpvotes($NSID) - 1;
+        $upvotes = getUserUpvotes($NSID) + 1;
         setUserUpvotes($NSID,$upvotes);
         
         $points = getPoints($NSID) + 1;

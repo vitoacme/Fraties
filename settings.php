@@ -48,7 +48,6 @@ label {color: white;}
 
 * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
 
-html { width: 100%; height:100%; overflow:hidden; }
 html { width: 100%; height:100%; }
 
 body { 

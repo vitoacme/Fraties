@@ -28,7 +28,6 @@
             return false;
         }
         else if($result){
-            return true;
             return $postID;
         }
         else{

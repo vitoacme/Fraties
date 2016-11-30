@@ -263,9 +263,10 @@ while($row = mysqli_fetch_assoc($leaders)) {
     $imagePath = $row["userImagePath"];
     $points = $row["userPoints"];
     $name = $row["userFirstName"];
+    $nsid = $row["userNSID"];
             echo "<li class='w3-padding-16'>";
               echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
-              echo "<span class='w3-xlarge'>{$name}</span><br>";
+              echo "<span class='w3-xlarge'><a href='profile.php?nsid={$nsid}'>{$name}</a></span><br>";
               echo "<span>{$points} points</span>";
             echo "</li>";
 }

@@ -3,11 +3,17 @@
     require_once 'Post/Controller/postClass.php';
     require_once 'Post/Controller/postTag.php';
     session_start();
-    $NSID = $_SESSION["userNSID"];
+    if (isset($_GET['nsid'])) {
+      $NSID = $_GET['nsid'];
+    } else {
+      $NSID = $_SESSION["userNSID"];
+    }
+    
     if(getUserActiveStatus($NSID)==1){
         $FirstName = getFirstName($NSID);
         $LastName = getLastName($NSID);
         $ImagePath = getImagePath($NSID);
+        $userImagePath = getImagePath($_SESSION["userNSID"]);
         $College = getCollege($NSID);
         $_SESSION["userCollege"] = $College;
         $upvotes = getUserUpvotes($NSID);
@@ -65,7 +71,7 @@
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">
       <div class="w3-padding-large w3-hover-white" title="My Account">
-          <img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
+          <img src='<?php echo $userImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
       </div>
         <div class="w3-padding-0 w3-dropdown-content w3-white w3-card-4">
           <a href="profile.php" style="font-size: 70%;">Profile</a>
@@ -191,7 +197,14 @@
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
             <div class="w3-container w3-center w3-padding"><br>
-            <label class="w3-opacity" style="font-size: 2em;">Welcome to your profile!</label>
+            <?php
+              if (isset($_GET['nsid'])) {
+                $title = $FirstName.'\'s';
+              } else {
+                $title = 'your';
+              }
+            ?>
+            <label class="w3-opacity" style="font-size: 2em;">Welcome to <?php echo $title; ?> profile!</label>
             </div>
           </div>
         </div>
@@ -214,7 +227,7 @@ while($row = mysqli_fetch_assoc($result)) {
         echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
-            echo getFirstName($postNsid)." ".getLastName($postNsid);
+            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>";
         echo "</h4><br>";
         echo "<p>";
           echo getTags($postID);

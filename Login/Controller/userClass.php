@@ -2,6 +2,7 @@
 // contains connect() and close() func for conenctions
 //    require_once '../../Database/connectDB.php';
     require_once 'Database/connectDB.php';
+    require_once 'Login/Controller/PHPMailer/PHPMailerAutoload.php';
 
 // creates user with nsid and passowrd
     function createUser($nsid, $password){
@@ -368,20 +369,46 @@
     function sendVerificationEmail($nsid){
         $password = getUserPassword($nsid);
         $email = $nsid."@mail.usask.ca";
-        $to      = $email; // Send email to our user
-        $subject = 'Fraties Signup Verification'; // Give the email a subject 
-        $message = 'Thanks for signing up!
+        $mail = new PHPMailer;
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'mail.privateemail.com';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'noreply@fraties.me';                 // SMTP username
+        $mail->Password = '9891438250';                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                    // TCP port to connect to
+
+        $mail->setFrom('noreply@fraties.me');
+        $mail->addAddress($email);     // Add a recipient
+
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = 'Welcome to Fraties!!!';
+        $mail->Body    = 'Thanks for signing up!
 Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
                     ------------------------
                     Username: '.$nsid.'
                     Password: '.$password.'
                     ------------------------
 Please click this link to activate your account:
-http://localhost/Fraties/Login/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsid.'
-                    '; // Our message above including the link
-                     
-        $headers = 'From:noreply@fraties.com' . "\r\n"; // Set from headers
-        mail($to, $subject, $message, $headers); // Send our email
+http://fraties.me/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsid.'
+                    ';
+        $mail->AltBody = 'Thanks for signing up!
+Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+                    ------------------------
+                    Username: '.$nsid.'
+                    Password: '.$password.'
+                    ------------------------
+Please click this link to activate your account:
+http://fraties.me/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsid.'
+                    ';
+
+        if(!$mail->send()) {
+            echo 'Fraties Signup Verification';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
     }
 
 // resturns activation status of user with nsid

@@ -5,12 +5,14 @@
         
         $nsid = $_POST['form-nsidRegister'];
         $password = $_POST['form-passwordRegister'];
+        $email = $_POST['form-emailRegister'];
+        
         
         $result = createUser($nsid, $password);
         
         // test for errors
         if($result){
-            sendVerificationEmail($nsid);
+            sendVerificationEmail($nsid,$email);
             echo "<script type='text/javascript'>
                 $(document).ready(function(){
                 $('#id01').modal('show');

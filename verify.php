@@ -4,13 +4,7 @@ require_once 'Login/Controller/userClass.php';
     session_start();
     $nsid = $_SESSION["userNSID"];
 
-    if($nsid==""){
-        echo "<script type='text/javascript'>window.location.href ='login.php';</script>";
-    }
-    else if(getUserActiveStatus($nsid)==1){
-        echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
-    }
-    else if( isset($_GET['Email']) && !empty($_GET['Email']) 
+    if( isset($_GET['Email']) && !empty($_GET['Email']) 
             AND isset($_GET['Password']) && !empty($_GET['Password']) 
             AND isset($_GET['NSID']) && !empty($_GET['NSID'])){
         
@@ -35,7 +29,12 @@ require_once 'Login/Controller/userClass.php';
         }  else{
             echo "wrong link.";
         }
-    } 
+    } else if(getUserActiveStatus($nsid)==1){
+        echo "<script type='text/javascript'>window.location.href ='home.php';</script>";
+    }
+    else if($nsid==""){
+        echo "<script type='text/javascript'>window.location.href ='index.php';</script>";
+    }
     else {
         include 'Login/Controller/resendVerification.php';
     }

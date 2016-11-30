@@ -71,7 +71,15 @@ body {
                 <h1>Hey <?php echo $_SESSION["userNSID"];?>!</h1>
                 <p>An email has been sent to your university email. Please click on the link provided in the email to verify your account.</p>
                 <p>Or <button name="resend" id="resend" type="submit" class="btn">click here</button> to resend the verification email.</p><br><br><br><br><br>
-                <button onclick="location.href = 'login.php'" type="button" class="btn btn-default" data-dismiss="modal">Click here to go back to login page!</button>
+                <?php 
+                    if(isset($_POST['goHome'])){
+                        $_SESSION["userNSID"] = null;
+                        header('Location: index.php');
+                        echo "<script type='text/javascript'>window.location.href ='index.php';</script>";
+                        exit;
+                    }
+                ?>
+                <button name='goHome' id='goHome' type="submit" class="btn btn-default" data-dismiss="modal">Click here to go back to login page!</button>
             </form>    
         </div>
     <script src="Login/Controller/js/index.js"></script>

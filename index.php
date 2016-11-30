@@ -9,6 +9,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Fraties Login</title>
@@ -174,14 +175,14 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button onclick="location.href = 'login.php'" type="button" class="close" data-dismiss="modal">&times;</button>
+        <button onclick="location.href = 'index.php'" type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Thanks <?php echo $_SESSION["userNSID"];?>!</h4>
       </div>
       <div class="modal-body">
         <p>An email has been sent to your university email. Please click on the link provided in the email to verify your account.</p>
       </div>
       <div class="modal-footer">
-        <button onclick="location.href = 'login.php'" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button onclick="location.href = 'index.php'" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

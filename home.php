@@ -13,7 +13,7 @@
         $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
     } else {
-        header('Location: login.php');
+        header('Location: index.php');
         exit;
     }
 ?>
@@ -267,11 +267,14 @@ while($row = mysqli_fetch_assoc($leaders)) {
     $imagePath = $row["userImagePath"];
     $points = $row["userPoints"];
     $name = $row["userFirstName"];
-            echo "<li class='w3-padding-16'>";
-              echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
-              echo "<span class='w3-xlarge'>{$name}</span><br>";
-              echo "<span>{$points} points</span>";
-            echo "</li>";
+    $nsid = $row["userNSID"];
+    if(getUserActiveStatus($nsid)){
+        echo "<li class='w3-padding-16'>";
+          echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+          echo "<span class='w3-xlarge'>{$name}</span><br>";
+          echo "<span>{$points} points</span>";
+        echo "</li>";
+    }
 }
 ?>
           </ul>

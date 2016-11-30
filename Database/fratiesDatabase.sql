@@ -122,6 +122,21 @@ CREATE TABLE `comments` (
   FOREIGN KEY (userNSID) REFERENCES users(userNSID) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE `tags` (
+  `tagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `postID` int(254) UNSIGNED NOT NULL,
+  `tagText` varchar(150) NOT NULL,
+  PRIMARY KEY (tagID),
+  FOREIGN KEY (postID) REFERENCES posts(postID) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --

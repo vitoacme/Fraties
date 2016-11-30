@@ -49,6 +49,7 @@ label {color: white;}
 * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
 
 html { width: 100%; height:100%; overflow:hidden; }
+html { width: 100%; height:100%; }
 
 body { 
 	width: 100%;
@@ -142,6 +143,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
           </select>
         </div><br>
         <button type="submit" name="submitUserInfo" value="Submit" class="btn btn-primary btn-block btn-large">Update!</button>
+        <button type="submit" name="submitUserInfo" value="Submit" class="btn btn-primary btn-block btn-large" style="margin-top: 50px; margin-bottom: 50px;">Update!</button>
     </form>
 </div>
   

@@ -280,7 +280,16 @@
         if(mysqli_affected_rows($connection) == 0){
             return false;
         } else if($result){
-            return true;
+            $query = "UPDATE `posts` SET ";
+            $query .= "`userCollege` = '{$college}' ";
+            $query .= "WHERE `userNSID` = '{$nsid}'";
+            $result = mysqli_query($connection, $query);
+
+            if(mysqli_affected_rows($connection) == 0) {
+                return false;
+            } else {
+              return true;  
+            }    
         } else{
             return false;
         }

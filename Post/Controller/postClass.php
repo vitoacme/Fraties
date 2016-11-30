@@ -19,6 +19,8 @@
         
         $result = mysqli_query($connection, $query);
         
+
+        $postID = mysqli_insert_id($connection);
         
         // test for errors
         if(mysqli_affected_rows($connection) == 0){
@@ -27,6 +29,7 @@
         }
         else if($result){
             return true;
+            return $postID;
         }
         else{
             die("Database update query for post failed! ".mysqli_error($connection));

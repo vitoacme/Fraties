@@ -1,6 +1,7 @@
 <?php
     require_once 'Login/Controller/userClass.php';
     require_once 'Post/Controller/postClass.php';
+    require_once 'Post/Controller/postTag.php';
     session_start();
     $NSID = $_SESSION["userNSID"];
     if(getUserActiveStatus($NSID)==1){
@@ -174,16 +175,7 @@
         <div class="w3-container">
           <p>Top Tags</p>
           <p>
-            <span class="w3-tag w3-small w3-theme-d5">News</span>
-            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-            <span class="w3-tag w3-small w3-theme-d2">Games</span>
-            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-            <span class="w3-tag w3-small w3-theme-l2">Food</span>
-            <span class="w3-tag w3-small w3-theme-l3">Design</span>
-            <span class="w3-tag w3-small w3-theme-l4">Art</span>
+            <?php echo getTopTags(); ?>
           </p>
         </div>
       </div>
@@ -219,11 +211,14 @@ while($row = mysqli_fetch_assoc($result)) {
     $postTime = strtotime($row["postTime"]);
     
         echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'><br>";
-        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
             echo getFirstName($postNsid)." ".getLastName($postNsid);
         echo "</h4><br>";
+        echo "<p>";
+          echo getTags($postID);
+        echo "</p>";
         echo "<hr class='w3-clear'>";
         echo "<p>";
             echo $postText;
@@ -231,7 +226,11 @@ while($row = mysqli_fetch_assoc($result)) {
             echo "<button type='submit' onclick='upVote(this)' value='".$postID."' class='upvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i><span id='up".$postID."'>".$postUpVotes."</span></button> ";
     
             echo "<button type='submit' onclick='downVote(this)' value='".$postID."' class='downvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i><span id='down".$postID."'>".$postDownVotes."</span></button> ";
-//        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>".$postCommentCount."</button>";
+            echo "<hr class='w3-clear'>";
+            echo "<div class='w3-margin-right'><input id='comment".$postID."' placeholder='comment...' class='w3-input' name='comment' type='text' required></div>";
+            echo "<button type='submit' onclick='comment(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-pencil'></i> Post</button>";
+              echo "<button id='count".$postID."' onclick='commentList(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom w3-margin-left'".(($postCommentCount==0)?'style="display:none;"':'')."'>See all ".$postCommentCount." comments</button>";
+            echo "<ul id='list".$postID."' class='w3-ul w3-margin-bottom'></ul>";
         echo "</div>";
 }
 ?>    
@@ -252,7 +251,7 @@ while($row = mysqli_fetch_assoc($leaders)) {
     $points = $row["userPoints"];
     $name = $row["userFirstName"];
             echo "<li class='w3-padding-16'>";
-              echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+              echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
               echo "<span class='w3-xlarge'>{$name}</span><br>";
               echo "<span>{$points} points</span>";
             echo "</li>";
@@ -316,6 +315,56 @@ function downVote(ele) {
             document.getElementById(res).innerHTML = " "+data;
          }
     });
+}
+// update comments of the post in db and on page without reloading
+function comment(ele) {
+    var id = parseInt (ele.value);
+    if (document.getElementById('comment'+id+'').value !== '') {
+      var comment = document.getElementById('comment'+id+'').value
+    }
+    
+    $.ajax({
+         url:"Post/Controller/postComment.php",
+         method:"POST",
+         data:{id:id, comment:comment},
+         success: function(data){
+            document.getElementById('comment'+id+'').value = '';
+            if (document.getElementById('list'+id+'').innerHTML == '') {
+               document.getElementById('count'+id+'').innerHTML = "See all "+data+" comments";
+            } else {
+              document.getElementById('count'+id+'').innerHTML = "Hide all comments";
+            }
+            document.getElementById('count'+id+'').style.display = "inline-block";
+            commentList(ele, 'new');
+         }
+    });
+}
+// load comment list
+function commentList(ele, source) {
+  var commentID = parseInt (ele.value);
+  if (document.getElementById('list'+commentID+'').innerHTML == '' ||  source == 'new') {
+     $.ajax({
+           url:"Post/Controller/postComment.php",
+           method:"POST",
+           data:{commentID:commentID},
+           success: function(data){
+              document.getElementById('list'+commentID+'').innerHTML = data;
+              document.getElementById('count'+commentID+'').innerHTML = "Hide all comments";
+
+           }
+      });
+  } else {
+    $.ajax({
+           url:"Post/Controller/postComment.php",
+           method:"POST",
+           data:{countID:commentID},
+           success: function(data){
+              document.getElementById('list'+commentID+'').innerHTML = '';
+              document.getElementById('count'+commentID+'').innerHTML = "See all "+data+" comments";
+
+           }
+      });
+  }
 }
 // Accordion
 function myFunction(id) {

@@ -14,7 +14,7 @@
         $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
     } else {
-        header('Location: index.php');
+        header('Location: login.php');
         exit;
     }
 ?>
@@ -191,7 +191,7 @@
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
             <div class="w3-container w3-center w3-padding"><br>
-            <label class="w3-opacity" style="font-size: 2em;">Welcome to Agriculture and Bioresources!</label>
+            <label class="w3-opacity" style="font-size: 2em;">Posts with the tag <?php if (isset($_GET['tag'])) {echo $_GET['tag'];}?></label>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@
       
 <!-- display the feed-->
 <?php
-$result = displayPostsOfAgri();
+$result = displaySpecificTagPosts($_GET['tag']);
 while($row = mysqli_fetch_assoc($result)) {
     $postID = $row["postID"];
     $postNsid = $row["userNSID"];

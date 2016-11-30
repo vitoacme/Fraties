@@ -1,6 +1,8 @@
 <?php
     require_once 'Login/Controller/userClass.php';
     require_once 'Post/Controller/postClass.php';
+    require_once 'Post/Controller/postTag.php';
+
     session_start();
     $NSID = $_SESSION["userNSID"];
     if(getUserActiveStatus($NSID)==1){
@@ -174,16 +176,7 @@
         <div class="w3-container">
           <p>Top Tags</p>
           <p>
-            <span class="w3-tag w3-small w3-theme-d5">News</span>
-            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-            <span class="w3-tag w3-small w3-theme-d2">Games</span>
-            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-            <span class="w3-tag w3-small w3-theme-l2">Food</span>
-            <span class="w3-tag w3-small w3-theme-l3">Design</span>
-            <span class="w3-tag w3-small w3-theme-l4">Art</span>
+            <?php echo getTopTags(); ?>
           </p>
         </div>
       </div>
@@ -204,7 +197,19 @@
                             // post the post
                             if(isset($_POST['post'])){
                                 $post =$_POST['post'];
-                                createPost($NSID, $post, $College);
+                                $tag1 =$_POST['tag1'];
+                                $tag2 =$_POST['tag2'];
+                                $tag3 =$_POST['tag3'];
+                                $postID = createPost($NSID, $post, $College);
+                                if ($tag1 != '') {
+                                  createTag($postID, $tag1);
+                                }
+                                 if ($tag2 != '') {
+                                  createTag($postID, $tag2);
+                                }
+                                 if ($tag3 != '') {
+                                  createTag($postID, $tag3);
+                                }
                                 
                                 $points = getPoints($NSID) + 1;
                                 setPoints($NSID, $points);
@@ -214,6 +219,10 @@
                     ?>
                     <label class="w3-opacity">Say something I'm giving up on you!</label>
                     <input placeholder="type here..." class="w3-input" name="post" type="text" required>
+                    <label class="w3-opacity">Add some tags to your post!<br />(ex: confession, news, question, CMPT412)</label><br />
+                    <input placeholder="tag 1..." style="display:inline; width:25%;" class="w3-input" name="tag1" type="text">
+                    <input placeholder="tag 2..." style="display:inline; width:25%;" class="w3-input" name="tag2" type="text">
+                    <input placeholder="tag 3..." style="display:inline; width:25%;" class="w3-input" name="tag3" type="text"><br />
                     <button type="submit" class="w3-btn w3-theme-d5"><i class="fa fa-pencil"></i> Post</button>
                 </form>
             </div>
@@ -235,11 +244,14 @@ while($row = mysqli_fetch_assoc($result)) {
     $postTime = strtotime($row["postTime"]);
     
         echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'><br>";
-        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px'>";
+        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
             echo getFirstName($postNsid)." ".getLastName($postNsid);
         echo "</h4><br>";
+        echo "<p>";
+          echo getTags($postID);
+        echo "</p>";
         echo "<hr class='w3-clear'>";
         echo "<p>";
             echo $postText;
@@ -250,7 +262,7 @@ while($row = mysqli_fetch_assoc($result)) {
             echo "<hr class='w3-clear'>";
             echo "<div class='w3-margin-right'><input id='comment".$postID."' placeholder='comment...' class='w3-input' name='comment' type='text' required></div>";
             echo "<button type='submit' onclick='comment(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-pencil'></i> Post</button>";
-            echo "<button id='count".$postID."' onclick='commentList(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom w3-margin-left'>See all ".$postCommentCount." comments</button>";
+              echo "<button id='count".$postID."' onclick='commentList(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom w3-margin-left'".(($postCommentCount==0)?'style="display:none;"':'')."'>See all ".$postCommentCount." comments</button>";
             echo "<ul id='list".$postID."' class='w3-ul w3-margin-bottom'></ul>";
         echo "</div>";
 }
@@ -271,6 +283,7 @@ while($row = mysqli_fetch_assoc($leaders)) {
     $imagePath = $row["userImagePath"];
     $points = $row["userPoints"];
     $name = $row["userFirstName"];
+<<<<<<< Updated upstream
     $nsid = $row["userNSID"];
     if(getUserActiveStatus($nsid)){
         echo "<li class='w3-padding-16'>";
@@ -279,6 +292,13 @@ while($row = mysqli_fetch_assoc($leaders)) {
           echo "<span>{$points} points</span>";
         echo "</li>";
     }
+=======
+            echo "<li class='w3-padding-16'>";
+              echo "<img src='{$imagePath}' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
+              echo "<span class='w3-xlarge'>{$name}</span><br>";
+              echo "<span>{$points} points</span>";
+            echo "</li>";
+>>>>>>> Stashed changes
 }
 ?>
           </ul>
@@ -358,8 +378,8 @@ function comment(ele) {
             } else {
               document.getElementById('count'+id+'').innerHTML = "Hide all comments";
             }
+            document.getElementById('count'+id+'').style.display = "inline-block";
             commentList(ele, 'new');
-
          }
     });
 }

@@ -247,7 +247,11 @@ while($row = mysqli_fetch_assoc($result)) {
             echo "<button type='submit' onclick='upVote(this)' value='".$postID."' class='upvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i><span id='up".$postID."'>".$postUpVotes."</span></button> ";
     
             echo "<button type='submit' onclick='downVote(this)' value='".$postID."' class='downvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i><span id='down".$postID."'>".$postDownVotes."</span></button> ";
-//        echo "<button type='button' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-comment'></i>".$postCommentCount."</button>";
+            echo "<hr class='w3-clear'>";
+            echo "<div class='w3-margin-right'><input id='comment".$postID."' placeholder='comment...' class='w3-input' name='comment' type='text' required></div>";
+            echo "<button type='submit' onclick='comment(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-pencil'></i> Post</button>";
+            echo "<button id='count".$postID."' onclick='commentList(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom w3-margin-left'>See all ".$postCommentCount." comments</button>";
+            echo "<ul id='list".$postID."' class='w3-ul w3-margin-bottom'></ul>";
         echo "</div>";
 }
 ?>    
@@ -335,6 +339,56 @@ function downVote(ele) {
             document.getElementById(res).innerHTML = " "+data;
          }
     });
+}
+// update comments of the post in db and on page without reloading
+function comment(ele) {
+    var id = parseInt (ele.value);
+    if (document.getElementById('comment'+id+'').value !== '') {
+      var comment = document.getElementById('comment'+id+'').value
+    }
+    
+    $.ajax({
+         url:"Post/Controller/postComment.php",
+         method:"POST",
+         data:{id:id, comment:comment},
+         success: function(data){
+            document.getElementById('comment'+id+'').value = '';
+            if (document.getElementById('list'+id+'').innerHTML == '') {
+               document.getElementById('count'+id+'').innerHTML = "See all "+data+" comments";
+            } else {
+              document.getElementById('count'+id+'').innerHTML = "Hide all comments";
+            }
+            commentList(ele, 'new');
+
+         }
+    });
+}
+// load comment list
+function commentList(ele, source) {
+  var commentID = parseInt (ele.value);
+  if (document.getElementById('list'+commentID+'').innerHTML == '' ||  source == 'new') {
+     $.ajax({
+           url:"Post/Controller/postComment.php",
+           method:"POST",
+           data:{commentID:commentID},
+           success: function(data){
+              document.getElementById('list'+commentID+'').innerHTML = data;
+              document.getElementById('count'+commentID+'').innerHTML = "Hide all comments";
+
+           }
+      });
+  } else {
+    $.ajax({
+           url:"Post/Controller/postComment.php",
+           method:"POST",
+           data:{countID:commentID},
+           success: function(data){
+              document.getElementById('list'+commentID+'').innerHTML = '';
+              document.getElementById('count'+commentID+'').innerHTML = "See all "+data+" comments";
+
+           }
+      });
+  }
 }
 // Accordion
 function myFunction(id) {

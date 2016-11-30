@@ -104,6 +104,24 @@ INSERT INTO `votes` (`voteID`, `postID`, `userNSID`, `vote`, `voteTime`) VALUES
 (114, 26, 'sym123', 1, '2016-11-28 22:17:07'),
 (115, 25, 'sym123', 0, '2016-11-28 22:17:11');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `postID` int(254) UNSIGNED NOT NULL,
+  `userNSID` varchar(100) NOT NULL,
+  `commentText` varchar(150) NOT NULL,
+  `commentTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (commentID),
+  FOREIGN KEY (postID) REFERENCES posts(postID) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userNSID) REFERENCES users(userNSID) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --

@@ -141,7 +141,6 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
             <option>St. Thomas More</option>
           </select>
         </div><br>
-        <button type="submit" name="submitUserInfo" value="Submit" class="btn btn-primary btn-block btn-large">Update!</button>
         <button type="submit" name="submitUserInfo" value="Submit" class="btn btn-primary btn-block btn-large" style="margin-top: 50px; margin-bottom: 50px;">Update!</button>
     </form>
 </div>

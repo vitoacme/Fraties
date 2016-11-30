@@ -18,7 +18,6 @@
         $query .= "(NULL, '{$nsid}', '{$post}', '{$College}', '0', '0', '0', CURRENT_TIMESTAMP)";
         
         $result = mysqli_query($connection, $query);
-        
 
         $postID = mysqli_insert_id($connection);
         

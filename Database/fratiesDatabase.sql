@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2016 at 02:01 AM
+-- Generation Time: Dec 01, 2016 at 04:21 PM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -38,7 +38,26 @@ CREATE TABLE `comments` (
 INSERT INTO `comments` (`commentID`, `postID`, `userNSID`, `commentText`, `commentTime`) VALUES
 (1, 27, 'vit655', 'hey', '2016-12-01 00:09:55'),
 (2, 27, 'vit655', 'hello', '2016-12-01 00:10:07'),
-(3, 28, 'acg438', 'hey', '2016-12-01 00:33:57');
+(3, 28, 'acg438', 'hey', '2016-12-01 00:33:57'),
+(4, 29, 'acg438', 'comment', '2016-12-01 02:03:45'),
+(5, 29, 'acg438', 'comment', '2016-12-01 02:04:26'),
+(6, 29, 'acg438', 'comment', '2016-12-01 02:06:07'),
+(7, 28, 'acg438', 'hey', '2016-12-01 02:07:17'),
+(8, 28, 'acg438', 'hey', '2016-12-01 02:24:08'),
+(9, 28, 'acg438', 'hey', '2016-12-01 02:24:12'),
+(10, 28, 'acg438', 'hey', '2016-12-01 02:24:13'),
+(11, 28, 'acg438', 'hey', '2016-12-01 02:24:13'),
+(12, 28, 'acg438', 'hey', '2016-12-01 02:24:14'),
+(13, 28, 'acg438', 'hey', '2016-12-01 02:24:14'),
+(14, 28, 'acg438', 'hey', '2016-12-01 02:24:14'),
+(15, 28, 'acg438', 'hey', '2016-12-01 02:24:14'),
+(16, 28, 'acg438', 'hey', '2016-12-01 02:24:14'),
+(17, 28, 'acg438', 'hey', '2016-12-01 02:24:15'),
+(18, 28, 'acg438', 'hey', '2016-12-01 02:24:15'),
+(19, 28, 'acg438', 'hey', '2016-12-01 02:25:11'),
+(20, 28, 'acg438', 'hey', '2016-12-01 02:40:42'),
+(21, 31, 'acg438', 'sleepy', '2016-12-01 07:55:01'),
+(22, 32, 'acg438', 'heeeyyy', '2016-12-01 15:15:42');
 
 -- --------------------------------------------------------
 
@@ -52,6 +71,15 @@ CREATE TABLE `followers` (
   `userNSID` varchar(100) NOT NULL,
   `followingNSID` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `followers`
+--
+
+INSERT INTO `followers` (`followID`, `userNSID`, `followingNSID`) VALUES
+(11, 'vit655', 'acg438'),
+(15, 'acg438', 'vit655'),
+(17, 'acg438', 'sym123');
 
 -- --------------------------------------------------------
 
@@ -86,7 +114,11 @@ INSERT INTO `posts` (`postID`, `userNSID`, `userCollege`, `postText`, `postUpVot
 (25, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote', 0, -1, 0, '2016-11-28 22:17:11'),
 (26, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote #2', 1, 0, 0, '2016-11-28 22:17:07'),
 (27, 'vit655', 'Edwards School of Business', 'hello', 0, 0, 2, '2016-12-01 00:13:09'),
-(28, 'vit655', 'Edwards School of Business', 'blah', 0, -1, 1, '2016-12-01 00:33:57');
+(28, 'vit655', 'Edwards School of Business', 'blah', 0, -1, 4, '2016-12-01 02:40:43'),
+(29, 'acg438', 'Arts & Science', 'post', 0, 0, 3, '2016-12-01 02:06:07'),
+(30, 'acg438', 'Arts & Science', 'dedss', 0, -1, 0, '2016-12-01 07:55:43'),
+(31, 'acg438', 'Arts & Science', 'tired...', 1, 0, 1, '2016-12-01 07:55:01'),
+(32, 'acg438', 'Arts & Science', 'test', 1, 0, 1, '2016-12-01 15:15:42');
 
 -- --------------------------------------------------------
 
@@ -108,7 +140,11 @@ CREATE TABLE `tags` (
 INSERT INTO `tags` (`tagID`, `postID`, `tagText`) VALUES
 (1, 27, 'usask'),
 (2, 27, 'test'),
-(3, 27, 'fml');
+(3, 27, 'fml'),
+(4, 30, 'b'),
+(5, 30, 'b'),
+(6, 30, 'b'),
+(7, 31, 'zzz');
 
 -- --------------------------------------------------------
 
@@ -128,17 +164,19 @@ CREATE TABLE `users` (
   `userPoints` int(254) NOT NULL DEFAULT '0',
   `userUpvotes` int(254) NOT NULL DEFAULT '0',
   `userDownvotes` int(254) NOT NULL DEFAULT '0',
-  `userActive` tinyint(1) NOT NULL DEFAULT '0'
+  `userActive` tinyint(1) NOT NULL DEFAULT '0',
+  `userFollowers` int(11) NOT NULL DEFAULT '0',
+  `userFollowing` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userUpvotes`, `userDownvotes`, `userActive`) VALUES
-(4, 'acg438', '123', 'Anja', 'Gilje', 'Arts & Science', 'UserImages/ninja-dinosaur.jpg', 1, 0, 0, 1),
-(3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 4, 0, 0, 1),
-(1, 'vit655', '123', 'Vishal', 'Tomar', 'Edwards School of Business', 'UserImages/12360281_10153291141323133_1246621340571062240_n.jpg', 3, 0, -1, 1);
+INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userUpvotes`, `userDownvotes`, `userActive`, `userFollowers`, `userFollowing`) VALUES
+(4, 'acg438', '123', 'Anja', 'Gilje', 'Arts & Science', 'UserImages/ninja-dinosaur.jpg', 31, 2, -1, 1, 1, 2),
+(3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 4, 0, 0, 1, 2, 0),
+(1, 'vit655', '123', 'Vishal', 'Tomar', 'Edwards School of Business', 'UserImages/12360281_10153291141323133_1246621340571062240_n.jpg', 6, 0, -1, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -165,7 +203,10 @@ INSERT INTO `votes` (`voteID`, `postID`, `userNSID`, `vote`, `voteTime`) VALUES
 (94, 19, 'sym123', 1, '2016-11-28 21:28:51'),
 (114, 26, 'sym123', 1, '2016-11-28 22:17:07'),
 (115, 25, 'sym123', 0, '2016-11-28 22:17:11'),
-(123, 28, 'vit655', 0, '2016-12-01 00:14:32');
+(123, 28, 'vit655', 0, '2016-12-01 00:14:32'),
+(124, 31, 'acg438', 1, '2016-12-01 07:54:55'),
+(125, 30, 'acg438', 0, '2016-12-01 07:55:43'),
+(126, 32, 'acg438', 1, '2016-12-01 15:15:34');
 
 --
 -- Indexes for dumped tables
@@ -225,22 +266,22 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `followID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `followID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `tagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `tagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -250,7 +291,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 --
 -- Constraints for dumped tables
 --

@@ -492,6 +492,7 @@ http://fraties.me/verify.php?Email='.$email.'&Password='.$password.'&NSID='.$nsi
         $query = "SELECT * ";
         $query .= "FROM `users` ";
         $query .= "ORDER BY userPoints DESC";
+        $query .= "ORDER BY userPoints DESC LIMIT 10";
         $result = mysqli_query($connection, $query);
         if(!$result){
             return false;

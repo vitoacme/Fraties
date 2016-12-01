@@ -2,6 +2,7 @@
     require_once 'Login/Controller/userClass.php';
     require_once 'Post/Controller/postClass.php';
     require_once 'Post/Controller/postTag.php';
+
     session_start();
     $NSID = $_SESSION["userNSID"];
     if(getUserActiveStatus($NSID)==1){
@@ -409,6 +410,7 @@ function commentList(ele, source) {
            success: function(data){
               document.getElementById('list'+commentID+'').innerHTML = '';
               document.getElementById('count'+commentID+'').innerHTML = "See all "+data+" comments";
+
            }
       });
   }

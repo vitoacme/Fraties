@@ -7,12 +7,20 @@
 if(isset($_POST["id"])){    
     $postID = $_POST["id"];
     if(createDownVote($NSID, $postID)){
+        
+        // decrease downvote of post by
         setDownVote($postID);
         
+        // decrease downvote of owner by one
         $postOwner = getUserOfPost($postID);
         $downvotes = getUserDownvotes($postOwner) - 1;
         setUserDownvotes($postOwner,$downvotes);
         
+        // decrease points of post owner by 1
+        $pointsOfOwner = getPoints($postOwner) - 1;
+        setPoints($postOwner, $pointsOfOwner);
+        
+        // increase points of person who downvoted by 1
         $points = getPoints($NSID) + 1;
         setPoints($NSID, $points);
     }

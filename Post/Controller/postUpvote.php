@@ -6,14 +6,22 @@
 //echo "Water";
 if(isset($_POST["id"])){
     $postID = $_POST["id"];
+    // create an upvote for post with vote =1 i.e. upvote
     if(createUpVote($NSID, $postID)){
+        
+        // increase upvote of post by
         setUpVote($postID);
         
-        
+        // increase upvote of owner by one
         $postOwner = getUserOfPost($postID);
         $upvotes = getUserUpvotes($postOwner) + 1;
         setUserUpvotes($postOwner,$upvotes);
         
+        // increase points of post owner by 1
+        $pointsOfOwner = getPoints($postOwner) + 1;
+        setPoints($postOwner, $pointsOfOwner);
+        
+        // increase points of person who liked by 1
         $points = getPoints($NSID) + 1;
         setPoints($NSID, $points);
     }
@@ -140,7 +148,7 @@ if(isset($_POST["id"])){
     }
 
 
-// creates upvote with nsid and postid
+// creates upvote with nsid and postid in table votes
     function createUpVote($NSID, $postID){
         // connect to database
         $connection = connect();

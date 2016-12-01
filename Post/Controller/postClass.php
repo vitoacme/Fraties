@@ -3,7 +3,6 @@
     require_once 'Database/connectDB.php';
 //require_once '../../Database/connectDB.php';
 
-// creates post with nsid, college and post text
     function createPost($nsid, $post, $College){
         // connect to database
         $connection = connect();

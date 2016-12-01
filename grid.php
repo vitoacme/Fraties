@@ -3,11 +3,17 @@
     require_once 'Post/Controller/postClass.php';
     require_once 'Post/Controller/postTag.php';
     session_start();
-    $NSID = $_SESSION["userNSID"];
+    if (isset($_GET['nsid'])) {
+      $NSID = $_GET['nsid'];
+    } else {
+      $NSID = $_SESSION["userNSID"];
+    }
+    
     if(getUserActiveStatus($NSID)==1){
         $FirstName = getFirstName($NSID);
         $LastName = getLastName($NSID);
         $ImagePath = getImagePath($NSID);
+        $userImagePath = getImagePath($_SESSION["userNSID"]);
         $College = getCollege($NSID);
         $_SESSION["userCollege"] = $College;
         $upvotes = getUserUpvotes($NSID);
@@ -69,7 +75,7 @@
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">
       <div class="w3-padding-large w3-hover-white" title="My Account">
-          <img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
+          <img src='<?php echo $userImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
       </div>
         <div class="w3-padding-0 w3-dropdown-content w3-white w3-card-4">
           <a href="profile.php" style="font-size: 70%;">Profile</a>
@@ -153,6 +159,16 @@
          <p class="w3-center w3-text-grey w3-slim">@<?php echo $NSID; ?></p>
          <h5 class="w3-center"><?php echo $College; ?></h5>
          <p class="w3-center"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
+         <?php
+          if ($NSID !== $_SESSION["userNSID"]) {
+            if (!isUserFollowing($_SESSION["userNSID"], $NSID)) {
+              echo "<button id='followButton' value='Follow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-plus'></i> Follow</button>";
+            } else {
+              echo "<button id='followButton' value='Unfollow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-times'></i> Unfollow</button>";
+            }
+            
+          } 
+         ?>
         </div>
       </div>
 
@@ -204,7 +220,14 @@
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
             <div class="w3-container w3-center w3-padding"><br>
-            <label class="w3-opacity" style="font-size: 2em;">Welcome to Kinesiology!</label>
+            <?php
+              if ($_GET['type'] == 'following') {
+                $title = 'you are following';
+              } else {
+                $title = 'following you';
+              }
+            ?>
+            <label class="w3-opacity" style="font-size: 2em;">Here are the users <?php echo $title; ?>!</label>
             </div>
           </div>
         </div>
@@ -212,38 +235,34 @@
       
 <!-- display the feed-->
 <?php
-$result = displayPostsOfKin();
+if ($_GET['type'] == 'following') {
+  $result = displayFollowing($NSID);
+} else {
+  $result = displayFollowers($NSID);
+}
+
 while($row = mysqli_fetch_assoc($result)) {
-    $postID = $row["postID"];
-    $postNsid = $row["userNSID"];
-    $postText = $row["postText"];
-    $postUpVotes = " ".$row["postUpVotes"];
-    $postDownVotes = " ".$row["postDownVotes"];
-    $postCommentCount = " ".$row["postComments"];
-    $nowtime = date(time());
-    $postTime = strtotime($row["postTime"]);
-    
-        echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'><br>";
-        echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
-        echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
-        echo "<h4>";
-            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>";
-        echo "</h4><br>";
-        echo "<p>";
-          echo getTags($postID);
-        echo "</p>";
-        echo "<hr class='w3-clear'>";
-        echo "<p>";
-            echo $postText;
-        echo "</p>";
-            echo "<button type='submit' onclick='upVote(this)' value='".$postID."' class='upvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-up'></i><span id='up".$postID."'>".$postUpVotes."</span></button> ";
-    
-            echo "<button type='submit' onclick='downVote(this)' value='".$postID."' class='downvote w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-thumbs-down'></i><span id='down".$postID."'>".$postDownVotes."</span></button> ";
-            echo "<hr class='w3-clear'>";
-            echo "<div class='w3-margin-right'><input id='comment".$postID."' placeholder='comment...' class='w3-input' name='comment' type='text' required></div>";
-            echo "<button type='submit' onclick='comment(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom'><i class='fa fa-pencil'></i> Post</button>";
-              echo "<button id='count".$postID."' onclick='commentList(this)' value='".$postID."' class='w3-btn w3-theme-d5 w3-margin-bottom w3-margin-left'".(($postCommentCount==0)?'style="display:none;"':'')."'>See all ".$postCommentCount." comments</button>";
-            echo "<ul id='list".$postID."' class='w3-ul w3-margin-bottom'></ul>";
+    $userNSID = $row["userNSID"];
+    $FirstName = $row["userFirstName"];
+    $LastName = $row["userLastName"];
+    $ImagePath = $row["userImagePath"];
+    $College = $row["userCollege"];
+    $Points = $row["userPoints"];   
+        echo "<div class='w3-container w3-card-2 w3-white w3-round w3-margin'>";
+        echo "<img src='".$ImagePath."' alt='Avatar' class='w3-left w3-circle w3-margin-right w3-margin-top w3-margin-bottom' style='width:100px; height:100px;'>";
+        echo "<h4 class='w3-margin-top w3-margin-left'>";
+            echo "<a href=profile.php?nsid=".$userNSID.">".$FirstName." ".$LastName."</a>";
+        echo "</h4>";
+        echo "<p class='w3-text-grey w3-slim w3-margin-left'>@".$userNSID."</p>";
+        echo "<h6 class='w3-margin-left'>".$College."</h6>";
+        echo "<h6><i class='fa fa-circle-o-notch fa-fw'></i> Points: ".$Points."</h6>";
+
+            if (!isUserFollowing($_SESSION["userNSID"], $userNSID)) {
+              echo "<button id='followButton' value='Follow' type='submit' onclick=\"follow(this, '".$userNSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-plus'></i> Follow</button>";
+            } else {
+              echo "<button id='followButton' value='Unfollow' type='submit' onclick=\"follow(this, '".$userNSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-times'></i> Unfollow</button>";
+            }
+             
         echo "</div>";
 }
 ?>    
@@ -292,93 +311,24 @@ while($row = mysqli_fetch_assoc($leaders)) {
 </footer>
  
 <script>
-// logout function
-    document.getElementById("logout").onclick = function () {
-        location.href = "Controller/logout.php";
-    };    
-// update upvotes of the post in db and on page without reloading
-function upVote(ele) {
-    var id = parseInt (ele.value);
-//        document.getElementById("demo").innerHTML = value;
+//Follow user
+function follow(ele, following) {
+    var buttonType = ele.value;
     $.ajax({
-         url:"Post/Controller/postUpvote.php",
+         url:"Post/Controller/postFollow.php",
          method:"POST",
-         data:{id:id},
+         data:{buttonType: buttonType, following:following},
          success: function(data){
-         
-            var str2 = id;
-            var str1 = "up";
-            var res = str1.concat(str2);
-            document.getElementById(res).innerHTML = " "+data;
-         }
-    });
-}
-// update downvotes of the post in db and on page without reloading
-function downVote(ele) {
-    var id = parseInt (ele.value);
-//        document.getElementById("demo").innerHTML = value;
-    $.ajax({
-         url:"Post/Controller/postDownvote.php",
-         method:"POST",
-         data:{id:id},
-         success: function(data){
-         
-            var str2 = id;
-            var str1 = "down";
-            var res = str1.concat(str2);
-            document.getElementById(res).innerHTML = " "+data;
-         }
-    });
-}
-// update comments of the post in db and on page without reloading
-function comment(ele) {
-    var id = parseInt (ele.value);
-    if (document.getElementById('comment'+id+'').value !== '') {
-      var comment = document.getElementById('comment'+id+'').value
-    }
-    
-    $.ajax({
-         url:"Post/Controller/postComment.php",
-         method:"POST",
-         data:{id:id, comment:comment},
-         success: function(data){
-            document.getElementById('comment'+id+'').value = '';
-            if (document.getElementById('list'+id+'').innerHTML == '') {
-               document.getElementById('count'+id+'').innerHTML = "See all "+data+" comments";
+            if (buttonType == 'Follow') {
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-times"></i> Unfollow';
+               document.getElementById('followButton').value = 'Unfollow';
             } else {
-              document.getElementById('count'+id+'').innerHTML = "Hide all comments";
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-plus"></i> Follow';
+              document.getElementById('followButton').value = 'Follow';
             }
-            document.getElementById('count'+id+'').style.display = "inline-block";
-            commentList(ele, 'new');
+
          }
-    });
-}
-// load comment list
-function commentList(ele, source) {
-  var commentID = parseInt (ele.value);
-  if (document.getElementById('list'+commentID+'').innerHTML == '' ||  source == 'new') {
-     $.ajax({
-           url:"Post/Controller/postComment.php",
-           method:"POST",
-           data:{commentID:commentID},
-           success: function(data){
-              document.getElementById('list'+commentID+'').innerHTML = data;
-              document.getElementById('count'+commentID+'').innerHTML = "Hide all comments";
-
-           }
-      });
-  } else {
-    $.ajax({
-           url:"Post/Controller/postComment.php",
-           method:"POST",
-           data:{countID:commentID},
-           success: function(data){
-              document.getElementById('list'+commentID+'').innerHTML = '';
-              document.getElementById('count'+commentID+'').innerHTML = "See all "+data+" comments";
-
-           }
-      });
-  }
+    });  
 }
 // Accordion
 function myFunction(id) {

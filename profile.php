@@ -19,6 +19,8 @@
         $upvotes = getUserUpvotes($NSID);
         $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
+        $Followers = getUserFollowers($NSID);
+        $Following = getUserFollowing($NSID);
     } else {
         header('Location: index.php');
         exit;
@@ -67,6 +69,8 @@
 <li class="w3-hide-small"><a href="Kinesiology.php" class="w3-padding-large w3-hover-white" title="Kinesiology"><i class="fa fa-heartbeat"></i></a></li>
 <!--St. Thomas More-->
 <li class="w3-hide-small"><a href="STM.php" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i></a></li>
+<!--Followed users-->
+<li class="w3-hide-small"><a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user"></i></a></li>
     
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">
@@ -113,6 +117,7 @@
             <a href="Engineering.php" class="w3-padding-large w3-hover-white" title="Engineering"><i class="fa fa-cogs"></i> Engineering</a>
             <a href="Kinesiology.php" class="w3-padding-large w3-hover-white" title="Kinesiology"><i class="fa fa-heartbeat"></i> Kinesiology</a>
             <a href="STM.php" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i> St. Thomas More</a>
+            <a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user-plus"></i> Users you follow</a>
           </div>
         </div>
     </li>
@@ -154,6 +159,16 @@
          <p class="w3-center w3-text-grey w3-slim">@<?php echo $NSID; ?></p>
          <h5 class="w3-center"><?php echo $College; ?></h5>
          <p class="w3-center"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
+         <?php
+          if ($NSID !== $_SESSION["userNSID"]) {
+            if (!isUserFollowing($_SESSION["userNSID"], $NSID)) {
+              echo "<button id='followButton' value='Follow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-plus'></i> Follow</button>";
+            } else {
+              echo "<button id='followButton' value='Unfollow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-times'></i> Unfollow</button>";
+            }
+            
+          } 
+         ?>
         </div>
       </div>
 
@@ -171,6 +186,28 @@
           <button title="Downvotes recieved" onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-down  fa-fw w3-margin-right"></i> Downvotes</button>
           <div id="Demo3" class="w3-accordion-content w3-container">
             <p><?php echo $downvotes; ?></p>
+          </div>
+           <button title="Following recieved" onclick="myFunction('Demo5')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-right fa-fw w3-margin-right"></i> Following</button>
+           <?php 
+              if (!isset($_GET['nsid']) || $NSID == $_SESSION["userNSID"]) {
+                $link = "<a href='grid.php?type=following'><p>".$Following."</p></a>";
+              } else {
+                $link = "<p>".$Following."</p>";
+              }
+           ?>
+          <div id="Demo5" class="w3-accordion-content w3-container">
+            <?php echo $link; ?>
+          </div>
+          <?php 
+              if (!isset($_GET['nsid']) || $NSID == $_SESSION["userNSID"]) {
+                $link2 = "<a href='grid.php?type=followers'><p>".$Followers."</p></a>";
+              } else {
+                $link2 = "<p>".$Followers."</p>";
+              }
+           ?>
+          <button title="Followers recieved" onclick="myFunction('Demo6')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-left fa-fw w3-margin-right"></i> Followers</button>
+          <div id="Demo6" class="w3-accordion-content w3-container">
+            <?php echo $link2; ?>
           </div>
         </div>
       </div>
@@ -379,6 +416,25 @@ function commentList(ele, source) {
            }
       });
   }
+}
+//Follow user
+function follow(ele, following) {
+    var buttonType = ele.value;
+    $.ajax({
+         url:"Post/Controller/postFollow.php",
+         method:"POST",
+         data:{buttonType: buttonType, following:following},
+         success: function(data){
+            if (buttonType == 'Follow') {
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-times"></i> Unfollow';
+               document.getElementById('followButton').value = 'Unfollow';
+            } else {
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-plus"></i> Follow';
+              document.getElementById('followButton').value = 'Follow';
+            }
+
+         }
+    });  
 }
 // Accordion
 function myFunction(id) {

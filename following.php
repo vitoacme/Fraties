@@ -111,7 +111,7 @@
             <a href="Engineering.php" class="w3-padding-large w3-hover-white" title="Engineering"><i class="fa fa-cogs"></i> Engineering</a>
             <a href="Kinesiology.php" class="w3-padding-large w3-hover-white" title="Kinesiology"><i class="fa fa-heartbeat"></i> Kinesiology</a>
             <a href="STM.php" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i> St. Thomas More</a>
-            <a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user-plus"></i> Users you follow</a>
+            <a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user"></i> Users you follow</a>
           </div>
         </div>
     </li>
@@ -171,14 +171,14 @@
           <div id="Demo3" class="w3-accordion-content w3-container">
             <p><?php echo $downvotes; ?></p>
           </div>
-          <button title="Following recieved" onclick="myFunction('Demo5')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-right fa-fw w3-margin-right"></i> Following</button>
+         <button title="Following recieved" onclick="myFunction('Demo5')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-right fa-fw w3-margin-right"></i> Following</button>
           <div id="Demo5" class="w3-accordion-content w3-container">
             <a href="grid.php?type=following"><p><?php echo $Following; ?></p></a>
           </div>
           <button title="Followers recieved" onclick="myFunction('Demo6')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-left fa-fw w3-margin-right"></i> Followers</button>
           <div id="Demo6" class="w3-accordion-content w3-container">
             <a href="grid.php?type=followers"><p><?php echo $Followers; ?></p></a>
-          </div>
+            </div>
         </div>
       </div>
       <br>
@@ -204,7 +204,7 @@
         <div class="w3-col m12">
           <div class="w3-card-2 w3-round w3-white">
             <div class="w3-container w3-center w3-padding"><br>
-            <label class="w3-opacity" style="font-size: 2em;">Welcome to Kinesiology!</label>
+            <label class="w3-opacity" style="font-size: 2em;">Just the Fraties you follow!</label>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@
       
 <!-- display the feed-->
 <?php
-$result = displayPostsOfKin();
+$result = displayPostsOfFollowing($NSID);
 while($row = mysqli_fetch_assoc($result)) {
     $postID = $row["postID"];
     $postNsid = $row["userNSID"];

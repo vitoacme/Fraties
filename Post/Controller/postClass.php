@@ -202,6 +202,63 @@
         close($connection);
 }
 
+// displays posts of St. Thomas More
+    function displayPostsOfFollowing($nsid){
+        $connection = connect();
+        $query = "SELECT p.userNSID, p.userCollege, p.postText, p.postUpVotes, p.postDownVotes, p.postComments, p.postTime FROM `posts` AS p JOIN `followers` AS f ON p.userNSID = f.followingNSID WHERE f.userNSID = '$nsid' ORDER BY `postTime` DESC";
+
+        $result = mysqli_query($connection, $query);
+
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+
+// displays users that the user with nsid is following
+    function displayFollowing($nsid){
+        $connection = connect();
+
+        $query = "SELECT u.userNSID, u.userFirstName, u.userLastName, u.userCollege, u.userImagePath, u.userPoints FROM `users` AS u JOIN `followers` AS f ON u.userNSID = f.followingNSID WHERE f.userNSID = '$nsid'";
+
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+
+// displays users that the user with nsid is following
+    function displayFollowers($nsid){
+        $connection = connect();
+
+        $query = "SELECT u.userNSID, u.userFirstName, u.userLastName, u.userCollege, u.userImagePath, u.userPoints FROM `users` AS u JOIN `followers` AS f ON u.userNSID = f.userNSID WHERE f.followingNSID = '$nsid'";
+
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+}
+
 // takes difference in seconds and returns time in words
     function secondsToString($secs){
     $bit = array(

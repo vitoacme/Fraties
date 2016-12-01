@@ -98,7 +98,7 @@
     // displays posts with a certain tag
     function displaySpecificTagPosts($tag){
         $connection = connect();
-        $query = "SELECT * FROM `posts` AS p JOIN `tags` AS t ON p.postID = t.postID WHERE t.tagText = 'b' GROUP BY p.postID ORDER BY `postTime` DESC";
+        $query = "SELECT * FROM `posts` AS p JOIN `tags` AS t ON p.postID = t.postID WHERE t.tagText = '$tag' GROUP BY p.postID ORDER BY `postTime` DESC";
 
         $result = mysqli_query($connection, $query);
         if(!$result){

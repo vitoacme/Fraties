@@ -2,6 +2,7 @@
     require_once 'Login/Controller/userClass.php';
     require_once 'Post/Controller/postClass.php';
     require_once 'Post/Controller/postTag.php';
+    require_once 'Post/Controller/postFollow.php';
 
     session_start();
     $NSID = $_SESSION["userNSID"];
@@ -14,6 +15,9 @@
         $upvotes = getUserUpvotes($NSID);
         $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
+        $Followers = getFollowers($NSID);
+        //echo "<script type='text/javascript'>alert(".$Followers.");</script>";
+        //$Following= getFollowing($NSID);
     } else {
         header('Location: index.php');
         exit;
@@ -166,6 +170,14 @@
           <button title="Downvotes recieved" onclick="myFunction('Demo3')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-down  fa-fw w3-margin-right"></i> Downvotes</button>
           <div id="Demo3" class="w3-accordion-content w3-container">
             <p><?php echo $downvotes; ?></p>
+          </div>
+           <button title="Following recieved" onclick="myFunction('Demo5')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-user  fa-fw w3-margin-right"></i> Following</button>
+          <div id="Demo5" class="w3-accordion-content w3-container">
+            <p><?php echo $Following; ?></p>
+          </div>
+          <button title="Followers recieved" onclick="myFunction('Demo6')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-user-plus  fa-fw w3-margin-right"></i> Followers</button>
+          <div id="Demo6" class="w3-accordion-content w3-container">
+            <p><?php echo $Followers; ?></p>
           </div>
         </div>
       </div>

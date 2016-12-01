@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2016 at 01:15 AM
+-- Generation Time: Dec 01, 2016 at 02:01 AM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -37,7 +37,21 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`commentID`, `postID`, `userNSID`, `commentText`, `commentTime`) VALUES
 (1, 27, 'vit655', 'hey', '2016-12-01 00:09:55'),
-(2, 27, 'vit655', 'hello', '2016-12-01 00:10:07');
+(2, 27, 'vit655', 'hello', '2016-12-01 00:10:07'),
+(3, 28, 'acg438', 'hey', '2016-12-01 00:33:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `followers`
+--
+
+DROP TABLE IF EXISTS `followers`;
+CREATE TABLE `followers` (
+  `followID` int(254) UNSIGNED NOT NULL,
+  `userNSID` varchar(100) NOT NULL,
+  `followingNSID` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -72,7 +86,7 @@ INSERT INTO `posts` (`postID`, `userNSID`, `userCollege`, `postText`, `postUpVot
 (25, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote', 0, -1, 0, '2016-11-28 22:17:11'),
 (26, 'sym123', 'Arts & Science', 'increase points to 2 but not the upvote #2', 1, 0, 0, '2016-11-28 22:17:07'),
 (27, 'vit655', 'Edwards School of Business', 'hello', 0, 0, 2, '2016-12-01 00:13:09'),
-(28, 'vit655', 'Edwards School of Business', 'blah', 0, -1, 0, '2016-12-01 00:14:32');
+(28, 'vit655', 'Edwards School of Business', 'blah', 0, -1, 1, '2016-12-01 00:33:57');
 
 -- --------------------------------------------------------
 
@@ -122,6 +136,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userUpvotes`, `userDownvotes`, `userActive`) VALUES
+(4, 'acg438', '123', 'Anja', 'Gilje', 'Arts & Science', 'UserImages/ninja-dinosaur.jpg', 1, 0, 0, 1),
 (3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 4, 0, 0, 1),
 (1, 'vit655', '123', 'Vishal', 'Tomar', 'Edwards School of Business', 'UserImages/12360281_10153291141323133_1246621340571062240_n.jpg', 3, 0, -1, 1);
 
@@ -165,6 +180,14 @@ ALTER TABLE `comments`
   ADD KEY `userNSID` (`userNSID`);
 
 --
+-- Indexes for table `followers`
+--
+ALTER TABLE `followers`
+  ADD PRIMARY KEY (`followID`),
+  ADD KEY `userNSID` (`userNSID`),
+  ADD KEY `followingNSID` (`followingNSID`);
+
+--
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
@@ -202,7 +225,12 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `followers`
+--
+ALTER TABLE `followers`
+  MODIFY `followID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `posts`
 --
@@ -217,7 +245,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `votes`
 --
@@ -233,6 +261,13 @@ ALTER TABLE `votes`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `posts` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userNSID`) REFERENCES `users` (`userNSID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `followers`
+--
+ALTER TABLE `followers`
+  ADD CONSTRAINT `followers_ibfk_1` FOREIGN KEY (`userNSID`) REFERENCES `users` (`userNSID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `followers_ibfk_2` FOREIGN KEY (`followingNSID`) REFERENCES `users` (`userNSID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `posts`

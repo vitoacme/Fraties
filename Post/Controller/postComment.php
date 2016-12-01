@@ -39,6 +39,11 @@ if(isset($_POST["id"]) && isset($_POST["comment"])){
         } else if($result){
             $points = getPoints($NSID) + 1;
             setPoints($NSID, $points);
+
+            $postNSID = getUserOfPost($postID);
+
+            $points = getPoints($postNSID) + 1;
+            setPoints($postNSID, $points);
             return true;
         } else{
             return false;
@@ -160,6 +165,30 @@ if(isset($_POST["id"]) && isset($_POST["comment"])){
             while($row = mysqli_fetch_assoc($result)) {
 
                 return $row["userPoints"];
+            }
+        } else if(mysqli_num_rows($result) > 1){
+            return false;
+        } else {
+            return false;
+        }
+        mysqli_free_result($result);
+        close($connection);
+    }
+
+    // returns owner of post with id
+    function getUserOfPost($postID){
+        $connection = connect();
+        $nsid = mysqli_real_escape_string($connection, $nsid);
+        $query = "SELECT * ";
+        $query .= "FROM `posts` ";
+        $query .= "WHERE `postID` = '$postID' ";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            return false;
+        }
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userNSID"];
             }
         } else if(mysqli_num_rows($result) > 1){
             return false;

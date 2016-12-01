@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2016 at 04:21 PM
+-- Generation Time: Dec 01, 2016 at 09:16 PM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -57,7 +57,8 @@ INSERT INTO `comments` (`commentID`, `postID`, `userNSID`, `commentText`, `comme
 (19, 28, 'acg438', 'hey', '2016-12-01 02:25:11'),
 (20, 28, 'acg438', 'hey', '2016-12-01 02:40:42'),
 (21, 31, 'acg438', 'sleepy', '2016-12-01 07:55:01'),
-(22, 32, 'acg438', 'heeeyyy', '2016-12-01 15:15:42');
+(22, 32, 'acg438', 'heeeyyy', '2016-12-01 15:15:42'),
+(23, 39, 'acg438', 'comment', '2016-12-01 20:13:45');
 
 -- --------------------------------------------------------
 
@@ -118,7 +119,14 @@ INSERT INTO `posts` (`postID`, `userNSID`, `userCollege`, `postText`, `postUpVot
 (29, 'acg438', 'Arts & Science', 'post', 0, 0, 3, '2016-12-01 02:06:07'),
 (30, 'acg438', 'Arts & Science', 'dedss', 0, -1, 0, '2016-12-01 07:55:43'),
 (31, 'acg438', 'Arts & Science', 'tired...', 1, 0, 1, '2016-12-01 07:55:01'),
-(32, 'acg438', 'Arts & Science', 'test', 1, 0, 1, '2016-12-01 15:15:42');
+(32, 'acg438', 'Arts & Science', 'test', 1, 0, 1, '2016-12-01 15:15:42'),
+(33, 'acg438', 'Arts & Science', 'hey', 0, 0, 0, '2016-12-01 15:41:40'),
+(34, 'acg438', 'Arts & Science', 'hey', 0, -1, 0, '2016-12-01 19:35:48'),
+(35, 'acg438', 'Arts & Science', 'blah', 0, 0, 0, '2016-12-01 19:36:35'),
+(36, 'acg438', 'Arts & Science', 'A new post ', 0, 0, 0, '2016-12-01 19:39:53'),
+(37, 'acg438', 'Arts & Science', 'Another post', 0, 0, 0, '2016-12-01 19:43:39'),
+(38, 'acg438', 'Arts & Science', 'Tag post', 0, 0, 0, '2016-12-01 20:06:16'),
+(39, 'acg438', 'Arts & Science', 'Hello ', 0, 0, 1, '2016-12-01 20:13:45');
 
 -- --------------------------------------------------------
 
@@ -144,7 +152,13 @@ INSERT INTO `tags` (`tagID`, `postID`, `tagText`) VALUES
 (4, 30, 'b'),
 (5, 30, 'b'),
 (6, 30, 'b'),
-(7, 31, 'zzz');
+(7, 31, 'zzz'),
+(8, 36, 'tag1'),
+(9, 36, 'tag2'),
+(10, 36, 'tag3'),
+(11, 39, 't1'),
+(12, 39, 't2'),
+(13, 39, 't3');
 
 -- --------------------------------------------------------
 
@@ -174,9 +188,31 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `userNSID`, `userPassword`, `userFirstName`, `userLastName`, `userCollege`, `userImagePath`, `userPoints`, `userUpvotes`, `userDownvotes`, `userActive`, `userFollowers`, `userFollowing`) VALUES
-(4, 'acg438', '123', 'Anja', 'Gilje', 'Arts & Science', 'UserImages/ninja-dinosaur.jpg', 31, 2, -1, 1, 1, 2),
+(4, 'acg438', '123', 'Anja', 'Gilje', 'Arts & Science', 'UserImages/ninja-dinosaur.jpg', 40, 2, -2, 1, 1, 2),
 (3, 'sym123', '123', 'Symon', 'Hernandez', 'Arts & Science', 'UserImages/13690870_1010780319036979_5306694210072325842_n.jpg', 4, 0, 0, 1, 2, 0),
 (1, 'vit655', '123', 'Vishal', 'Tomar', 'Edwards School of Business', 'UserImages/12360281_10153291141323133_1246621340571062240_n.jpg', 6, 0, -1, 1, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userTag`
+--
+
+DROP TABLE IF EXISTS `userTag`;
+CREATE TABLE `userTag` (
+  `userTagID` int(254) UNSIGNED NOT NULL,
+  `postID` int(254) UNSIGNED NOT NULL,
+  `tagNSID` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `userTag`
+--
+
+INSERT INTO `userTag` (`userTagID`, `postID`, `tagNSID`) VALUES
+(1, 36, 'vit655'),
+(2, 38, 'vit655'),
+(3, 39, 'sym123');
 
 -- --------------------------------------------------------
 
@@ -206,7 +242,8 @@ INSERT INTO `votes` (`voteID`, `postID`, `userNSID`, `vote`, `voteTime`) VALUES
 (123, 28, 'vit655', 0, '2016-12-01 00:14:32'),
 (124, 31, 'acg438', 1, '2016-12-01 07:54:55'),
 (125, 30, 'acg438', 0, '2016-12-01 07:55:43'),
-(126, 32, 'acg438', 1, '2016-12-01 15:15:34');
+(126, 32, 'acg438', 1, '2016-12-01 15:15:34'),
+(127, 34, 'acg438', 0, '2016-12-01 19:35:48');
 
 --
 -- Indexes for dumped tables
@@ -251,6 +288,14 @@ ALTER TABLE `users`
   ADD KEY `userNSID` (`userNSID`);
 
 --
+-- Indexes for table `userTag`
+--
+ALTER TABLE `userTag`
+  ADD PRIMARY KEY (`userTagID`),
+  ADD KEY `postID` (`postID`),
+  ADD KEY `tagNSID` (`tagNSID`);
+
+--
 -- Indexes for table `votes`
 --
 ALTER TABLE `votes`
@@ -266,7 +311,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `commentID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `followers`
 --
@@ -276,22 +321,27 @@ ALTER TABLE `followers`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `postID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `tagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `tagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `userID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `userTag`
+--
+ALTER TABLE `userTag`
+  MODIFY `userTagID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `voteID` int(254) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 --
 -- Constraints for dumped tables
 --
@@ -321,6 +371,13 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `tags`
   ADD CONSTRAINT `tags_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `posts` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `userTag`
+--
+ALTER TABLE `userTag`
+  ADD CONSTRAINT `usertag_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `posts` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `usertag_ibfk_2` FOREIGN KEY (`tagNSID`) REFERENCES `users` (`userNSID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `votes`

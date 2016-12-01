@@ -38,6 +38,67 @@
         return $result;
     }
 
+// Creates new user tag for post
+    function createUserTag($postID, $userTag){
+        // connect to database
+        $connection = connect();
+        
+        $postID = mysqli_real_escape_string($connection, $postID);
+        $tag = mysqli_real_escape_string($connection, $tag);
+        
+        $query = "INSERT INTO `userTag`";
+        $query .="(`postID`, `tagNSID`) ";
+        $query .= "VALUES ";
+        $query .= "('{$postID}', '{$userTag}')";
+        
+        $result = mysqli_query($connection, $query);
+        
+        
+        // test for errors
+        if(mysqli_affected_rows($connection) == 0){
+            echo "No post added to db!";
+            return false;
+        }
+        else if($result){
+            return true;
+        }
+        else{
+            die("Database update query for post failed! ".mysqli_error($connection));
+            return false;
+        }
+        
+        /* close connection uses close() func from dbConnect file */
+        mysqli_free_result($result);
+        close($connection);
+        return $result;
+    }
+
+    // Gets the user tag of a post
+    function getUserTag($postID){
+        $connection = connect();
+
+        $postID = mysqli_real_escape_string($connection, $postID);
+
+        $query = "SELECT u.userFirstName, u.userLastName, t.tagNSID FROM `users` AS u JOIN `userTag` AS t ON u.userNSID = t.tagNSID WHERE t.postID = '$postID'";
+
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            die("Database display query failed!");
+            return false;
+        }
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $tags .= '<span class="w3-opacity"> - with <a href="profile.php?nsid='.$row["tagNSID"].'">'.$row["userFirstName"].' '.$row["userLastName"].'</a></span>';
+            }
+            return $tags;
+        } else {
+            return false;
+        }
+
+        mysqli_free_result($result);
+        close($connection);
+    }
+
     //gets the tags of a post
     function getTags($postID) {
         $connection = connect();

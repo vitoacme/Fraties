@@ -213,6 +213,7 @@
                                 $tag1 =$_POST['tag1'];
                                 $tag2 =$_POST['tag2'];
                                 $tag3 =$_POST['tag3'];
+                                $userTag = $_POST['userTag'];
                                 $postID = createPost($NSID, $post, $College);
                                 if ($tag1 != '') {
                                   createTag($postID, $tag1);
@@ -223,6 +224,10 @@
                                  if ($tag3 != '') {
                                   createTag($postID, $tag3);
                                 }
+                                if ($userTag != '') {
+                                  createUserTag($postID, $userTag);
+                                }
+
                                 
                                 $points = getPoints($NSID) + 1;
                                 setPoints($NSID, $points);
@@ -232,6 +237,21 @@
                     ?>
                     <label class="w3-opacity">Say something I'm giving up on you!</label>
                     <input placeholder="type here..." class="w3-input" name="post" type="text" required>
+                    <label class="w3-opacity">Tag a friend?</label><br />
+                    <select style="width:50%;" name="userTag" class="w3-select">
+                      <option selected value> -- Nope -- </option>
+                      <?php
+                        $result = displayFollowing($NSID);
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $userNSID = $row["userNSID"];
+                            $FirstName = $row["userFirstName"];
+                            $LastName = $row["userLastName"]; 
+
+                            echo "<option value='".$userNSID."'>".$FirstName." ".$LastName."</option>";
+                        }
+            
+                      ?>
+                    </select><br /><br />
                     <label class="w3-opacity">Add some tags to your post!<br />(ex: confession, news, question, CMPT412)</label><br />
                     <input placeholder="tag 1..." style="display:inline; width:25%;" class="w3-input" name="tag1" type="text">
                     <input placeholder="tag 2..." style="display:inline; width:25%;" class="w3-input" name="tag2" type="text">
@@ -260,7 +280,7 @@ while($row = mysqli_fetch_assoc($result)) {
         echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
-            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>";
+            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>".getUserTag($postID);
         echo "</h4><br>";
         echo "<p>";
           echo getTags($postID);

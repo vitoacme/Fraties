@@ -397,7 +397,6 @@ function commentList(ele, source) {
            success: function(data){
               document.getElementById('list'+commentID+'').innerHTML = '';
               document.getElementById('count'+commentID+'').innerHTML = "See all "+data+" comments";
-
            }
       });
   }

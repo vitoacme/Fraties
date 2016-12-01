@@ -13,6 +13,8 @@
         $upvotes = getUserUpvotes($NSID);
         $downvotes = getUserDownvotes($NSID);
         $Points = getPoints($NSID);
+        $Followers = getUserFollowers($NSID);
+        $Following = getUserFollowing($NSID);
     } else {
         header('Location: login.php');
         exit;
@@ -166,6 +168,14 @@
           <div id="Demo3" class="w3-accordion-content w3-container">
             <p><?php echo $downvotes; ?></p>
           </div>
+           <button title="Following recieved" onclick="myFunction('Demo5')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-right fa-fw w3-margin-right"></i> Following</button>
+          <div id="Demo5" class="w3-accordion-content w3-container">
+            <a href="grid.php?type=following"><p><?php echo $Following; ?></p></a>
+          </div>
+          <button title="Followers recieved" onclick="myFunction('Demo6')" class="w3-btn-block w3-theme-d4 w3-left-align"><i class="fa fa-arrow-circle-left fa-fw w3-margin-right"></i> Followers</button>
+          <div id="Demo6" class="w3-accordion-content w3-container">
+            <a href="grid.php?type=followers"><p><?php echo $Followers; ?></p></a>
+          </div>
         </div>
       </div>
       <br>
@@ -214,7 +224,7 @@ while($row = mysqli_fetch_assoc($result)) {
         echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
-            echo getFirstName($postNsid)." ".getLastName($postNsid);
+            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>".getUserTag($postID);
         echo "</h4><br>";
         echo "<p>";
           echo getTags($postID);

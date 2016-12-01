@@ -226,7 +226,7 @@ while($row = mysqli_fetch_assoc($result)) {
         echo "<img src='".getImagePath($postNsid)."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='width:60px; height:60px;'>";
         echo "<span class='w3-right w3-opacity'>".secondsToString($nowtime-$postTime)."</span>";
         echo "<h4>";
-            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>";
+            echo "<a href=profile.php?nsid=".$postNsid.">".getFirstName($postNsid)." ".getLastName($postNsid)."</a>".getUserTag($postID);
         echo "</h4><br>";
         echo "<p>";
           echo getTags($postID);

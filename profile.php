@@ -49,7 +49,7 @@
 <div class="w3-top">
  <ul class="w3-navbar w3-theme-d5 w3-left-align w3-large">
   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
-    <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar"></i></a>
+    <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><img src='<?php echo getImagePath($_SESSION["userNSID"]); ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar"></i></a>
   </li>
      <!-- Feed page  -->
   
@@ -75,7 +75,7 @@
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">
       <div class="w3-padding-large w3-hover-white" title="My Account">
-          <img src='<?php echo $userImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
+          <img src='<?php echo getImagePath($_SESSION["userNSID"]); ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar">
       </div>
         <div class="w3-padding-0 w3-dropdown-content w3-white w3-card-4">
           <a href="profile.php" style="font-size: 70%;">Profile</a>

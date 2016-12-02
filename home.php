@@ -18,6 +18,16 @@
          <h5 class="w3-center"><?php echo $userCollege; ?></h5>
          <p class="w3-center"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:130px;width:130px" alt="Avatar"></p>
         </div>
+        <?php
+          if ($NSID !== $_SESSION["userNSID"]) {
+            if (!isUserFollowing($_SESSION["userNSID"], $NSID)) {
+              echo "<button id='followButton' value='Follow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-plus'></i> Follow</button>";
+            } else {
+              echo "<button id='followButton' value='Unfollow' type='submit' onclick=\"follow(this, '".$NSID."')\" class='w3-btn w3-theme-d5 w3-margin-bottom' style='width:100%;'><i class='fa fa-user-times'></i> Unfollow</button>";
+            }
+            
+          } 
+         ?>
       </div>
 
       <!-- Followers/Points/Following -->

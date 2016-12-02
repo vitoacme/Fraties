@@ -5,7 +5,24 @@
     session_start();
 
     $NSID = $_SESSION["userNSID"];
-    if(getUserActiveStatus($NSID)==1){
+
+    if (isset($_GET['nsid'])) {
+    $NSID = $_GET['nsid'];
+      $postsToDisplay = displayPostsOfID($_GET['nsid']);
+    } else if (isset($_GET['following'])) {
+        $postsToDisplay = displayPostsOfFollowing($NSID);
+    } else if (isset($_GET['college'])) {
+      $college = $_GET['college'];
+        if($college == "Arts And Science"){
+            $college = "Arts & Science";
+        }
+       $postsToDisplay = displayPostsOf($college);
+    } else {
+      $postsToDisplay = displayPosts();
+    }
+
+
+if(getUserActiveStatus($NSID)==1){
         $FirstName = getFirstName($NSID);
         $LastName = getLastName($NSID);
         $ImagePath = getImagePath($NSID);
@@ -19,21 +36,6 @@
     } else {
         header('Location: index.php');
         exit;
-    }
-
-
-    if (isset($_GET['nsid'])) {
-      $postsToDisplay = displayPostsOfID($_GET['nsid']);
-    } else if (isset($_GET['following'])) {
-        $postsToDisplay = displayPostsOfFollowing($NSID);
-    } else if (isset($_GET['college'])) {
-      $college = $_GET['college'];
-        if($college == "Arts And Science"){
-            $college = "Arts & Science";
-        }
-       $postsToDisplay = displayPostsOf($college);
-    } else {
-      $postsToDisplay = displayPosts();
     }
 ?>
 <!DOCTYPE html>
@@ -62,7 +64,7 @@
     <a class="w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><img src='<?php echo $ImagePath; ?>' class="w3-circle" style="height:25px;width:25px" alt="Avatar"></i></a>
   </li>
      <!-- Feed page  -->
-  <li><a href="home.php" title="Go home!" class="w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Fraties</a></li>
+  <li><a href="home.php" title="Go home!" class="w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i> Fraties</a></li>
   
 <!--Arts & Science-->
   <li class="w3-hide-small"><a href="home.php?college=Arts And Science" class="w3-padding-large w3-hover-white" title="Arts & Science"><i class="fa fa-paint-brush"></i><i class="fa fa-flask"></i></a></li>

@@ -127,6 +127,24 @@ function commentList(ele, source) {
       });
   }
 }
+//Follow user
+function follow(ele, following) {
+    var buttonType = ele.value;
+    $.ajax({
+         url:"Post/Controller/postFollow.php",
+         method:"POST",
+         data:{buttonType: buttonType, following:following},
+         success: function(data){
+            if (buttonType == 'Follow') {
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-times"></i> Unfollow';
+               document.getElementById('followButton').value = 'Unfollow';
+            } else {
+              document.getElementById('followButton').innerHTML ='<i class="fa fa-user-plus"></i> Follow';
+              document.getElementById('followButton').value = 'Follow';
+            }
+         }
+    });  
+}
 // Accordion
 function myFunction(id) {
     var x = document.getElementById(id);

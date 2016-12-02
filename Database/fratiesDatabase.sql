@@ -179,8 +179,8 @@ CREATE TABLE `users` (
   `userUpvotes` int(254) NOT NULL DEFAULT '0',
   `userDownvotes` int(254) NOT NULL DEFAULT '0',
   `userActive` tinyint(1) NOT NULL DEFAULT '0',
-  `userFollowers` int(11) NOT NULL DEFAULT '0',
-  `userFollowing` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `userFollowers` int(254) NOT NULL DEFAULT '0',
+  `userFollowing` int(254) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

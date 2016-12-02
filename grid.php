@@ -70,7 +70,7 @@
 <!--St. Thomas More-->
 <li class="w3-hide-small"><a href="STM.php" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i></a></li>
 <!--Followed users-->
-<li class="w3-hide-small"><a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user"></i></a></li>
+<li class="w3-hide-small"><a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-users"></i></a></li>
     
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">

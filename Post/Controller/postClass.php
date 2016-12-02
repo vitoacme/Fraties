@@ -74,12 +74,11 @@
         mysqli_free_result($result);
         close($connection);
 }
-
 // displays posts of arts
-    function displayPostsOfArts(){
+    function displayPostsOf($college){
         $connection = connect();
         $query = "SELECT * FROM `posts`";
-        $query .= "WHERE `userCollege` = 'Arts & Science' ";
+        $query .= "WHERE `userCollege` = '{$college}' ";
         $query .= "ORDER BY `postTime` DESC";
         $result = mysqli_query($connection, $query);
         if(!$result){
@@ -93,6 +92,7 @@
         mysqli_free_result($result);
         close($connection);
 }
+
 // displays posts of Agriculture
     function displayPostsOfAgri(){
         $connection = connect();

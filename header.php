@@ -3,15 +3,7 @@
     require_once 'Post/Controller/postClass.php';
     require_once 'Post/Controller/postTag.php';
     session_start();
-    if (isset($_GET['college'])) {
-      $college = $_GET['college'];
-        if($college == "Arts And Science"){
-            $college = "Arts & Science";
-        }
-       $postsToDisplay = displayPostsOf($college);
-    } else {
-      $postsToDisplay = displayPosts();
-    }
+
     $NSID = $_SESSION["userNSID"];
     if(getUserActiveStatus($NSID)==1){
         $FirstName = getFirstName($NSID);
@@ -27,6 +19,19 @@
     } else {
         header('Location: index.php');
         exit;
+    }
+
+    if (isset($_GET['college'])) {
+      $college = $_GET['college'];
+        if($college == "Arts And Science"){
+            $college = "Arts & Science";
+        }
+       $postsToDisplay = displayPostsOf($college);
+    } else {
+      $postsToDisplay = displayPosts();
+    }
+    if (isset($_GET['following'])) {
+        $postsToDisplay = displayPostsOfFollowing($NSID);
     }
 ?>
 <!DOCTYPE html>
@@ -72,7 +77,7 @@
 <!--St. Thomas More-->
 <li class="w3-hide-small"><a href="home.php?college=St. Thomas More" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i></a></li>
 <!--Followed users-->
-<li class="w3-hide-small"><a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-users"></i></a></li>
+<li class="w3-hide-small"><a href="home.php?following" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-users"></i></a></li>
     
      <!-- Profile picture on top right -->
   <li class="w3-dropdown-hover w3-hide-small w3-right">
@@ -112,14 +117,14 @@
         <div class="w3-accordion w3-white">
           <button title="sort feeds by college" onclick="myFunction('Demo4')" class="w3-btn-block w3-theme-d4"><i class="fa fa-filter fa-fw w3-margin-right"></i> Sort</button>
           <div id="Demo4" class="w3-accordion-content w3-container">
-            <a href="Arts&Science.php" class="w3-padding-large w3-hover-white" title="Arts & Science"><i class="fa fa-paint-brush"></i><i class="fa fa-flask"></i> Arts & Science</a>
-            <a href="Agriculture.php" class="w3-padding-large w3-hover-white" title="Agriculture and Bioresources"><i class="glyphicon glyphicon-grain"></i> Agriculture and Bioresources</a>
-            <a href="ESB.php" class="w3-padding-large w3-hover-white" title="Edwards School of Business"><i class="fa fa-usd"></i> Edwards School of Business</a>
-            <a href="Education.php" class="w3-padding-large w3-hover-white" title="Education"><i class="fa fa-graduation-cap"></i> Education</a>
-            <a href="Engineering.php" class="w3-padding-large w3-hover-white" title="Engineering"><i class="fa fa-cogs"></i> Engineering</a>
-            <a href="Kinesiology.php" class="w3-padding-large w3-hover-white" title="Kinesiology"><i class="fa fa-heartbeat"></i> Kinesiology</a>
-            <a href="STM.php" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i> St. Thomas More</a>
-            <a href="following.php" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-user-plus"></i> Users you follow</a>
+            <a href="home.php?college=Arts And Science" class="w3-padding-large w3-hover-white" title="Arts & Science"><i class="fa fa-paint-brush"></i><i class="fa fa-flask"></i> Arts & Science</a>
+            <a href="home.php?college=Agriculture and Bioresources" class="w3-padding-large w3-hover-white" title="Agriculture and Bioresources"><i class="glyphicon glyphicon-grain"></i> Agriculture and Bioresources</a>
+            <a href="home.php?college=Edwards%20School%20of%20Business" class="w3-padding-large w3-hover-white" title="Edwards School of Business"><i class="fa fa-usd"></i> Edwards School of Business</a>
+            <a href="home.php?college=Education" class="w3-padding-large w3-hover-white" title="Education"><i class="fa fa-graduation-cap"></i> Education</a>
+            <a href="home.php?college=Engineering" class="w3-padding-large w3-hover-white" title="Engineering"><i class="fa fa-cogs"></i> Engineering</a>
+            <a href="home.php?college=Kinesiology" class="w3-padding-large w3-hover-white" title="Kinesiology"><i class="fa fa-heartbeat"></i> Kinesiology</a>
+            <a href="home.php?college=St. Thomas More" class="w3-padding-large w3-hover-white" title="St. Thomas More"><i class="fa fa-university"></i> St. Thomas More</a>
+            <a href="home.php?following" class="w3-padding-large w3-hover-white" title="Users you follow"><i class="fa fa-users"></i> Following</a>
           </div>
         </div>
     </li>

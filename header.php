@@ -21,7 +21,12 @@
         exit;
     }
 
-    if (isset($_GET['college'])) {
+
+    if (isset($_GET['nsid'])) {
+      $postsToDisplay = displayPostsOfID($_GET['nsid']);
+    } else if (isset($_GET['following'])) {
+        $postsToDisplay = displayPostsOfFollowing($NSID);
+    } else if (isset($_GET['college'])) {
       $college = $_GET['college'];
         if($college == "Arts And Science"){
             $college = "Arts & Science";
@@ -29,9 +34,6 @@
        $postsToDisplay = displayPostsOf($college);
     } else {
       $postsToDisplay = displayPosts();
-    }
-    if (isset($_GET['following'])) {
-        $postsToDisplay = displayPostsOfFollowing($NSID);
     }
 ?>
 <!DOCTYPE html>
